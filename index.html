@@ -69,10 +69,19 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="text-center mt-6 mb-8">
+            <button id="loadMoreBtn" onclick="loadMore()" class="hidden bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold py-2 px-6 border border-gray-600 rounded shadow transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                Load More Proxies...
+            </button>
+        </div>
     </div>
 
     <script>
         let allProxies = [];
+        let currentFiltered = [];
+        let displayLimit = 50; // Jumlah proxy yang ditampilkan pertama kali
+        const ITEMS_PER_PAGE = 50; // Jumlah tambahan setiap kali Load More diklik
 
         async function fetchProxies() {
             try {
@@ -84,7 +93,9 @@
 
                 allProxies = data.proxies;
                 populateCountryDropdown(allProxies);
-                renderTable(allProxies);
+                
+                // Memicu filter untuk pertama kali agar data dirender
+                applyFilters(); 
             } catch (error) {
                 document.getElementById('proxyTableBody').innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-red-500">Error loading data.</td></tr>`;
             }
@@ -102,67 +113,89 @@
             });
         }
 
-        function renderTable(proxies) {
-            const tableBody = document.getElementById('proxyTableBody');
-            tableBody.innerHTML = '';
-
-            if (proxies.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-gray-500">No proxies match criteria.</td></tr>`;
-                return;
-            }
-
-            proxies.forEach(item => {
-                let latencyColor = 'text-green-400';
-                if (item.latency_ms > 1000) latencyColor = 'text-yellow-400';
-                if (item.latency_ms > 2000) latencyColor = 'text-red-400';
-
-                let anonColor = 'text-gray-400';
-                let anonText = item.anonymity || 'Unknown';
-                if (anonText === 'Elite') anonColor = 'text-purple-400 font-bold';
-                if (anonText === 'Anonymous') anonColor = 'text-blue-400 font-semibold';
-                if (anonText === 'Transparent') anonColor = 'text-orange-400';
-
-                let protoColor = 'text-gray-400';
-                let protoText = item.protocol || 'HTTP';
-                if (protoText === 'SOCKS5') protoColor = 'text-pink-400 font-bold';
-                if (protoText === 'SOCKS4') protoColor = 'text-teal-400 font-semibold';
-
-                const countryCode = item.country_code ? item.country_code.toLowerCase() : 'un';
-                const countryName = item.country || 'Unknown';
-                let flagHtml = countryCode !== 'un' ? `<img src="https://flagcdn.com/24x18/${countryCode}.png" alt="${countryName}" title="${countryName}" class="inline-block rounded shadow-sm">` : `<span class="text-gray-500 text-xs">Unk</span>`;
-
-                const copyText = `${protoText.toLowerCase()}://${item.proxy}`;
-
-                const row = `
-                    <tr class="hover:bg-gray-750 transition duration-150">
-                        <td class="px-6 py-4 text-center" title="${countryName}">${flagHtml}</td>
-                        <td class="px-6 py-4 font-mono text-sm text-gray-200">${item.proxy}</td>
-                        <td class="px-6 py-4 text-center text-xs ${protoColor}">${protoText}</td>
-                        <td class="px-6 py-4 text-center text-xs ${anonColor}">${anonText}</td>
-                        <td class="px-6 py-4 text-center font-mono text-sm ${latencyColor}">${item.latency_ms} ms</td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="copyToClipboard('${copyText}')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs py-1.5 px-3 rounded shadow">Copy IP</button>
-                        </td>
-                    </tr>
-                `;
-                tableBody.innerHTML += row;
-            });
-        }
-
         function applyFilters() {
             const search = document.getElementById('searchBar').value.toLowerCase();
             const fProto = document.getElementById('filterProto').value;
             const fAnon = document.getElementById('filterAnon').value;
             const fCountry = document.getElementById('filterCountry').value;
 
-            const filtered = allProxies.filter(item => {
+            // Memperbarui daftar yang lolos filter
+            currentFiltered = allProxies.filter(item => {
                 const protoStr = item.protocol || 'HTTP';
                 return (item.proxy.toLowerCase().includes(search) || (item.country && item.country.toLowerCase().includes(search))) &&
                        (fProto === 'all' || protoStr === fProto) &&
                        (fAnon === 'all' || item.anonymity === fAnon) &&
                        (fCountry === 'all' || item.country === fCountry);
             });
-            renderTable(filtered);
+
+            // Reset limit tampilan ke 50 setiap kali filter diganti
+            displayLimit = ITEMS_PER_PAGE; 
+            renderTable();
+        }
+
+        function renderTable() {
+            const tableBody = document.getElementById('proxyTableBody');
+            const btnLoadMore = document.getElementById('loadMoreBtn');
+            
+            // Hanya mengambil data sesuai limit tampilan
+            const proxiesToShow = currentFiltered.slice(0, displayLimit);
+            
+            let htmlContent = '';
+
+            if (proxiesToShow.length === 0) {
+                htmlContent = `<tr><td colspan="6" class="px-6 py-8 text-center text-gray-500">No proxies match criteria.</td></tr>`;
+            } else {
+                proxiesToShow.forEach(item => {
+                    let latencyColor = 'text-green-400';
+                    if (item.latency_ms > 1000) latencyColor = 'text-yellow-400';
+                    if (item.latency_ms > 2000) latencyColor = 'text-red-400';
+
+                    let anonColor = 'text-gray-400';
+                    let anonText = item.anonymity || 'Unknown';
+                    if (anonText === 'Elite') anonColor = 'text-purple-400 font-bold';
+                    if (anonText === 'Anonymous') anonColor = 'text-blue-400 font-semibold';
+                    if (anonText === 'Transparent') anonColor = 'text-orange-400';
+
+                    let protoColor = 'text-gray-400';
+                    let protoText = item.protocol || 'HTTP';
+                    if (protoText === 'SOCKS5') protoColor = 'text-pink-400 font-bold';
+                    if (protoText === 'SOCKS4') protoColor = 'text-teal-400 font-semibold';
+
+                    const countryCode = item.country_code ? item.country_code.toLowerCase() : 'un';
+                    const countryName = item.country || 'Unknown';
+                    let flagHtml = countryCode !== 'un' ? `<img src="https://flagcdn.com/24x18/${countryCode}.png" alt="${countryName}" title="${countryName}" class="inline-block rounded shadow-sm">` : `<span class="text-gray-500 text-xs">Unk</span>`;
+
+                    const copyText = `${protoText.toLowerCase()}://${item.proxy}`;
+
+                    htmlContent += `
+                        <tr class="hover:bg-gray-750 transition duration-150">
+                            <td class="px-6 py-4 text-center" title="${countryName}">${flagHtml}</td>
+                            <td class="px-6 py-4 font-mono text-sm text-gray-200">${item.proxy}</td>
+                            <td class="px-6 py-4 text-center text-xs ${protoColor}">${protoText}</td>
+                            <td class="px-6 py-4 text-center text-xs ${anonColor}">${anonText}</td>
+                            <td class="px-6 py-4 text-center font-mono text-sm ${latencyColor}">${item.latency_ms} ms</td>
+                            <td class="px-6 py-4 text-center">
+                                <button onclick="copyToClipboard('${copyText}')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs py-1.5 px-3 rounded shadow">Copy IP</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            // Memperbarui DOM sekaligus (Jauh lebih cepat dan anti-lag)
+            tableBody.innerHTML = htmlContent;
+
+            // Menampilkan atau menyembunyikan tombol Load More
+            if (displayLimit < currentFiltered.length) {
+                btnLoadMore.classList.remove('hidden');
+            } else {
+                btnLoadMore.classList.add('hidden');
+            }
+        }
+
+        function loadMore() {
+            displayLimit += ITEMS_PER_PAGE;
+            renderTable();
         }
 
         function copyToClipboard(text) {
