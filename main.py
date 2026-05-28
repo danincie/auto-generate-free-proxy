@@ -42,12 +42,26 @@ class ModernProxyBot:
         proxy_url = f"http://{proxy}"
         start_time = time.time()
         try:
-            async with session.get('http://httpbin.org/ip', proxy=proxy_url, timeout=self.config.get('timeout', 5)) as response:
+            # Endpoint diubah ke /get untuk membaca HTTP Headers
+            async with session.get('http://httpbin.org/get', proxy=proxy_url, timeout=self.config.get('timeout', 5)) as response:
                 if response.status == 200:
+                    data = await response.json()
                     latency = round((time.time() - start_time) * 1000)
+                    
+                    # --- LOGIKA DETEKSI ANONIMITAS ---
+                    headers = {k.lower(): v for k, v in data.get('headers', {}).items()}
+                    anonymity = "Elite"
+                    
+                    if 'x-forwarded-for' in headers or 'x-real-ip' in headers:
+                        anonymity = "Transparent"
+                    elif 'via' in headers or 'forwarded' in headers:
+                        anonymity = "Anonymous"
+                    # ---------------------------------
+
                     self.working_proxies.append({
                         "proxy": proxy,
-                        "latency_ms": latency
+                        "latency_ms": latency,
+                        "anonymity": anonymity # Data anonimitas disimpan ke JSON
                     })
         except Exception:
             pass
@@ -66,7 +80,7 @@ class ModernProxyBot:
                 TimeElapsedColumn(),
             ) as progress:
                 
-                task = progress.add_task("[yellow]Memeriksa IP...", total=len(self.raw_proxies))
+                task = progress.add_task("[yellow]Memeriksa IP dan Tingkat Anonimitas...", total=len(self.raw_proxies))
                 tasks = [self.check_proxy(proxy, session, progress, task) for proxy in self.raw_proxies]
                 await asyncio.gather(*tasks)
         
@@ -123,11 +137,8 @@ async def main():
     
     if bot.raw_proxies:
         await bot.verify_proxies()
-        
-        # Eksekusi pencarian negara jika ada proxy yang hidup
         if bot.working_proxies:
             await bot.enrich_with_geo_data()
-            
         bot.export_data()
 
 if __name__ == "__main__":

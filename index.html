@@ -23,13 +23,14 @@
                     <tr class="bg-gray-750 text-gray-300 text-sm uppercase tracking-wide border-b border-gray-600">
                         <th class="px-6 py-4 font-semibold text-center">Location</th>
                         <th class="px-6 py-4 font-semibold">IP Address : Port</th>
+                        <th class="px-6 py-4 font-semibold text-center">Anonymity</th>
                         <th class="px-6 py-4 font-semibold text-center">Latency (ms)</th>
                         <th class="px-6 py-4 font-semibold text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody id="proxyTableBody" class="divide-y divide-gray-700">
                     <tr>
-                        <td colspan="4" class="px-6 py-8 text-center text-gray-500">
+                        <td colspan="5" class="px-6 py-8 text-center text-gray-500">
                             <div class="animate-pulse">Fetching proxy data...</div>
                         </td>
                     </tr>
@@ -41,7 +42,8 @@
     <script>
         async function fetchProxies() {
             try {
-                const response = await fetch('working_proxies.json');
+                // Menambahkan cache-busting agar browser tidak meload versi JSON yang usang
+                const response = await fetch('working_proxies.json?v=' + new Date().getTime());
                 const data = await response.json();
 
                 document.getElementById('lastUpdated').textContent = data.last_updated;
@@ -51,7 +53,7 @@
                 tableBody.innerHTML = '';
 
                 if (data.proxies.length === 0) {
-                    tableBody.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-red-400">No active proxies found at the moment.</td></tr>`;
+                    tableBody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-red-400">No active proxies found at the moment.</td></tr>`;
                     return;
                 }
 
@@ -61,11 +63,17 @@
                     if (item.latency_ms > 1000) latencyColor = 'text-yellow-400';
                     if (item.latency_ms > 2000) latencyColor = 'text-red-400';
 
+                    // Warna indikator tingkat anonimitas
+                    let anonColor = 'text-gray-400';
+                    let anonText = item.anonymity || 'Unknown';
+                    if (anonText === 'Elite') anonColor = 'text-purple-400 font-bold';
+                    if (anonText === 'Anonymous') anonColor = 'text-blue-400 font-semibold';
+                    if (anonText === 'Transparent') anonColor = 'text-orange-400';
+
                     // Menangani data negara
                     const countryCode = item.country_code ? item.country_code.toLowerCase() : 'un';
                     const countryName = item.country || 'Unknown';
                     
-                    // Membuat ikon bendera
                     let flagHtml = `<span class="text-gray-500 text-xs">Unknown</span>`;
                     if (countryCode !== 'un') {
                         flagHtml = `<img src="https://flagcdn.com/24x18/${countryCode}.png" alt="${countryName}" title="${countryName}" class="inline-block rounded shadow-sm">`;
@@ -77,6 +85,7 @@
                                 ${flagHtml}
                             </td>
                             <td class="px-6 py-4 font-mono text-sm text-gray-200">${item.proxy}</td>
+                            <td class="px-6 py-4 text-center text-xs ${anonColor}">${anonText}</td>
                             <td class="px-6 py-4 text-center font-mono text-sm ${latencyColor}">${item.latency_ms} ms</td>
                             <td class="px-6 py-4 text-center">
                                 <button onclick="copyToClipboard('${item.proxy}')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs py-1.5 px-3 rounded shadow transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-50">
@@ -88,7 +97,7 @@
                     tableBody.innerHTML += row;
                 });
             } catch (error) {
-                document.getElementById('proxyTableBody').innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-red-500">Error loading proxy data. Ensure JSON file is generated.</td></tr>`;
+                document.getElementById('proxyTableBody').innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-red-500">Error loading proxy data. Ensure JSON file is generated.</td></tr>`;
             }
         }
 
