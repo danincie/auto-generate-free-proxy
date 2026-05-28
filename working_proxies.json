@@ -1,160 +1,90 @@
 {
-    "last_updated": "2026-05-28 11:32:39",
-    "total_active": 22,
+    "last_updated": "2026-05-28 18:43:02",
+    "total_active": 12,
     "proxies": [
         {
-            "proxy": "178.212.144.7:80",
-            "latency_ms": 768,
+            "proxy": "219.93.101.60:80",
+            "latency_ms": 1206,
             "anonymity": "Elite",
-            "country": "Poland",
-            "country_code": "PL"
+            "country": "Malaysia",
+            "country_code": "MY"
         },
         {
-            "proxy": "104.168.153.19:3128",
-            "latency_ms": 1878,
-            "anonymity": "Elite",
-            "country": "United States",
-            "country_code": "US"
-        },
-        {
-            "proxy": "38.7.21.116:999",
-            "latency_ms": 1882,
-            "anonymity": "Elite",
-            "country": "Mexico",
-            "country_code": "MX"
-        },
-        {
-            "proxy": "47.90.149.238:4002",
-            "latency_ms": 2137,
+            "proxy": "12.50.107.221:80",
+            "latency_ms": 1491,
             "anonymity": "Elite",
             "country": "United States",
             "country_code": "US"
         },
         {
-            "proxy": "113.208.119.142:9002",
-            "latency_ms": 2170,
+            "proxy": "8.213.197.208:31433",
+            "latency_ms": 2106,
             "anonymity": "Elite",
-            "country": "China",
-            "country_code": "CN"
+            "country": "Thailand",
+            "country_code": "TH"
         },
         {
-            "proxy": "181.62.249.189:8081",
-            "latency_ms": 2173,
-            "anonymity": "Elite",
-            "country": "Colombia",
-            "country_code": "CO"
-        },
-        {
-            "proxy": "8.220.204.92:90",
-            "latency_ms": 2261,
+            "proxy": "8.220.204.92:1080",
+            "latency_ms": 2186,
             "anonymity": "Elite",
             "country": "South Korea",
             "country_code": "KR"
         },
         {
-            "proxy": "8.213.134.213:55443",
-            "latency_ms": 2265,
-            "anonymity": "Elite",
-            "country": "South Korea",
-            "country_code": "KR"
-        },
-        {
-            "proxy": "8.211.195.173:2873",
-            "latency_ms": 2299,
-            "anonymity": "Elite",
-            "country": "United Kingdom",
-            "country_code": "GB"
-        },
-        {
-            "proxy": "8.211.195.173:3128",
-            "latency_ms": 2299,
-            "anonymity": "Elite",
-            "country": "United Kingdom",
-            "country_code": "GB"
-        },
-        {
-            "proxy": "8.211.42.167:81",
-            "latency_ms": 2331,
-            "anonymity": "Elite",
-            "country": "Germany",
-            "country_code": "DE"
-        },
-        {
-            "proxy": "8.213.156.191:1080",
-            "latency_ms": 2336,
-            "anonymity": "Elite",
-            "country": "South Korea",
-            "country_code": "KR"
-        },
-        {
-            "proxy": "39.109.113.97:4090",
-            "latency_ms": 2362,
-            "anonymity": "Elite",
-            "country": "Hong Kong",
-            "country_code": "HK"
-        },
-        {
-            "proxy": "113.11.126.238:30226",
-            "latency_ms": 2489,
-            "anonymity": "Elite",
-            "country": "Bangladesh",
-            "country_code": "BD"
-        },
-        {
-            "proxy": "31.148.207.153:80",
-            "latency_ms": 2520,
-            "anonymity": "Elite",
-            "country": "Ukraine",
-            "country_code": "UA"
-        },
-        {
-            "proxy": "200.59.193.18:999",
-            "latency_ms": 2555,
-            "anonymity": "Elite",
-            "country": "Argentina",
-            "country_code": "AR"
-        },
-        {
-            "proxy": "197.221.249.199:80",
-            "latency_ms": 2815,
-            "anonymity": "Elite",
-            "country": "Zimbabwe",
-            "country_code": "ZW"
-        },
-        {
-            "proxy": "8.209.96.245:80",
-            "latency_ms": 3828,
-            "anonymity": "Elite",
-            "country": "Germany",
-            "country_code": "DE"
-        },
-        {
-            "proxy": "47.76.144.139:18080",
-            "latency_ms": 4145,
-            "anonymity": "Elite",
-            "country": "Hong Kong",
-            "country_code": "HK"
-        },
-        {
-            "proxy": "157.90.10.15:35201",
-            "latency_ms": 4657,
-            "anonymity": "Elite",
-            "country": "Germany",
-            "country_code": "DE"
-        },
-        {
-            "proxy": "103.157.58.49:8080",
-            "latency_ms": 5023,
+            "proxy": "103.171.255.204:8080",
+            "latency_ms": 2303,
             "anonymity": "Elite",
             "country": "Indonesia",
             "country_code": "ID"
         },
         {
-            "proxy": "147.75.34.105:443",
-            "latency_ms": 5357,
+            "proxy": "8.211.194.85:4002",
+            "latency_ms": 2370,
             "anonymity": "Elite",
-            "country": "Netherlands",
-            "country_code": "NL"
+            "country": "United Kingdom",
+            "country_code": "GB"
+        },
+        {
+            "proxy": "8.221.139.222:8008",
+            "latency_ms": 2416,
+            "anonymity": "Elite",
+            "country": "Japan",
+            "country_code": "JP"
+        },
+        {
+            "proxy": "8.138.125.130:8081",
+            "latency_ms": 2453,
+            "anonymity": "Elite",
+            "country": "China",
+            "country_code": "CN"
+        },
+        {
+            "proxy": "8.217.214.66:50000",
+            "latency_ms": 2717,
+            "anonymity": "Elite",
+            "country": "Hong Kong",
+            "country_code": "HK"
+        },
+        {
+            "proxy": "114.215.127.92:80",
+            "latency_ms": 2726,
+            "anonymity": "Elite",
+            "country": "China",
+            "country_code": "CN"
+        },
+        {
+            "proxy": "47.90.149.238:90",
+            "latency_ms": 3406,
+            "anonymity": "Elite",
+            "country": "United States",
+            "country_code": "US"
+        },
+        {
+            "proxy": "8.213.128.6:81",
+            "latency_ms": 4383,
+            "anonymity": "Elite",
+            "country": "South Korea",
+            "country_code": "KR"
         }
     ]
 }

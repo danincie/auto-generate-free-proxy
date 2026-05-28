@@ -2,7 +2,7 @@ name: Auto Update Proxies
 
 on:
   schedule:
-    - cron: "0 */6 * * *" # Berjalan otomatis setiap 6 jam
+    - cron: "0 */1 * * *" # Berjalan otomatis setiap 1 jam
   workflow_dispatch: # Memunculkan tombol manual di GitHub
 
 permissions:
