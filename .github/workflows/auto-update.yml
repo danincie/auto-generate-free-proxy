@@ -30,10 +30,11 @@ jobs:
       - name: Run Proxy Bot
         run: python main.py
 
-      - name: Commit and Push Changes
+      -- name: Commit and Push Changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add working_proxies.txt working_proxies.json
           git commit -m "bot: auto update proxy list" || echo "No changes to commit"
+          git pull --rebase origin main
           git push
