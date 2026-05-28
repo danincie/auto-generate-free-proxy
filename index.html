@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="dark"> <head>
+<html lang="en" class="dark">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Proxy Dashboard</title>
+    <title>Auto Generate Free Proxy</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -16,20 +17,19 @@
 
     <script>
         tailwind.config = {
-            darkMode: 'class', // Mengaktifkan sakelar dark mode manual
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        lightBase: '#f4f5f0',  // Background abu-abu sangat muda (Light)
-                        darkBase: '#0d0f14',   // Background utama sangat gelap (Dark)
-                        darkCard: '#1a1c23',   // Warna kotak panel (Dark)
-                        darkBorder: '#2a2d36', // Garis pembatas (Dark)
-                        brandGreen: '#b2f242', // Hijau stabilo Grass
+                        lightBase: '#f4f5f0',
+                        darkBase: '#0d0f14',
+                        darkCard: '#1a1c23',
+                        darkBorder: '#2a2d36',
+                        brandGreen: '#b2f242',
                         brandGreenHover: '#9bdc2b',
                     },
                     boxShadow: {
-                        // Bayangan solid ala Neo-Brutalism untuk Light Mode
                         'brutal': '4px 4px 0px 0px rgba(17,24,39,1)',
                         'brutal-sm': '2px 2px 0px 0px rgba(17,24,39,1)',
                     }
@@ -53,7 +53,6 @@
                 <svg class="w-5 h-5 text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,0.8)]" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
                 Dashboard
             </a>
-            
             <a href="#" aria-label="Documentation" class="flex items-center gap-3 text-gray-600 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-[#15171d] px-4 py-3 rounded-xl transition font-semibold">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 Documentation
@@ -75,8 +74,8 @@
         
         <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
             <div>
-                <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-1">Network Dashboard</h1>
-                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Manage and explore your automatically scraped proxies.</p>
+                <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-1">Live Free Proxies</h1>
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">HTTP, SOCKS4, and SOCKS5 scraped automatically.</p>
             </div>
             
             <button onclick="toggleTheme()" class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-full px-5 py-2 flex items-center gap-3 shadow-brutal-sm dark:shadow-sm hover:-translate-y-0.5 transition-transform focus:outline-none">
@@ -90,7 +89,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-2xl p-6 shadow-brutal dark:shadow-sm transition-colors duration-300">
                 <div class="flex justify-between items-start mb-4">
-                    <div class="text-xs text-gray-600 dark:text-gray-400 font-bold uppercase tracking-wider">Total Active Nodes</div>
+                    <div class="text-xs text-gray-600 dark:text-gray-400 font-bold uppercase tracking-wider">Total Active Proxies</div>
                     <svg class="w-5 h-5 text-gray-900 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
                 </div>
                 <div class="flex items-end gap-3">
@@ -115,7 +114,7 @@
         <div class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-2xl overflow-hidden shadow-brutal dark:shadow-lg transition-colors duration-300">
             
             <div class="p-5 border-b-2 border-gray-900 dark:border-b dark:border-darkBorder bg-[#f8f9f5] dark:bg-transparent flex flex-col xl:flex-row justify-between items-center gap-4 transition-colors duration-300">
-                <h2 class="text-xl font-extrabold text-gray-900 dark:text-white w-full xl:w-auto">Your Networks</h2>
+                <h2 class="text-xl font-extrabold text-gray-900 dark:text-white w-full xl:w-auto">Live Proxies</h2>
                 
                 <div class="flex flex-wrap gap-3 w-full xl:w-auto font-medium">
                     <input type="text" id="searchBar" oninput="applyFilters()" placeholder="Search IP or Country..." class="bg-white dark:bg-darkBase border-2 border-gray-900 dark:border dark:border-darkBorder rounded-full px-5 py-2 text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brandGreen flex-1 min-w-[200px]">
@@ -145,10 +144,10 @@
                     <thead>
                         <tr class="text-xs text-gray-600 dark:text-gray-500 font-extrabold uppercase tracking-wider border-b-2 border-gray-900 dark:border-b dark:border-darkBorder bg-[#f4f5f0] dark:bg-[#14161b] transition-colors duration-300">
                             <th class="px-6 py-4 w-16 text-center">Loc</th>
-                            <th class="px-6 py-4">Network Name / IP</th>
+                            <th class="px-6 py-4">IP Address : Port</th>
                             <th class="px-6 py-4">Protocol</th>
-                            <th class="px-6 py-4">Status</th>
-                            <th class="px-6 py-4">Network Score</th>
+                            <th class="px-6 py-4">Anonymity</th>
+                            <th class="px-6 py-4">Latency</th>
                             <th class="px-6 py-4 text-right">Action</th>
                         </tr>
                     </thead>
@@ -203,7 +202,6 @@
             updateThemeUI();
         }
 
-        // Set UI saat pertama kali dimuat
         updateThemeUI();
 
         // --- LOGIKA TABEL & PROXY ---
@@ -224,7 +222,7 @@
                 populateCountryDropdown(allProxies);
                 applyFilters(); 
             } catch (error) {
-                document.getElementById('proxyTableBody').innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-red-500 font-bold">Error loading network data.</td></tr>`;
+                document.getElementById('proxyTableBody').innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-red-500 font-bold">Error loading proxy data.</td></tr>`;
             }
         }
 
@@ -270,17 +268,36 @@
             let htmlContent = '';
 
             if (proxiesToShow.length === 0) {
-                htmlContent = `<tr><td colspan="6" class="px-6 py-8 text-center text-gray-500 font-bold">No networks found matching criteria.</td></tr>`;
+                htmlContent = `<tr><td colspan="6" class="px-6 py-8 text-center text-gray-500 font-bold">No proxies found matching criteria.</td></tr>`;
             } else {
                 proxiesToShow.forEach(item => {
-                    let scoreText = 'Excellent';
-                    let scoreColor = 'text-green-600 dark:text-brandGreen';
-                    let scoreBg = 'bg-green-100 dark:bg-green-900/30';
-                    if (item.latency_ms > 1000) { scoreText = 'Good'; scoreColor = 'text-yellow-600 dark:text-yellow-400'; scoreBg = 'bg-yellow-100 dark:bg-yellow-900/30'; }
-                    if (item.latency_ms > 2000) { scoreText = 'Fair'; scoreColor = 'text-orange-600 dark:text-orange-400'; scoreBg = 'bg-orange-100 dark:bg-orange-900/30'; }
+                    
+                    // Indikator Warna Latency
+                    let latencyColor = 'text-green-600 dark:text-green-400';
+                    let dotColor = 'bg-green-500 dark:bg-green-400';
+                    
+                    if (item.latency_ms > 1000) { 
+                        latencyColor = 'text-yellow-600 dark:text-yellow-400'; 
+                        dotColor = 'bg-yellow-500 dark:bg-yellow-400'; 
+                    }
+                    if (item.latency_ms > 2000) { 
+                        latencyColor = 'text-red-600 dark:text-red-400'; 
+                        dotColor = 'bg-red-500 dark:bg-red-400'; 
+                    }
 
+                    // Warna Identitas Anonimitas
+                    let anonColor = 'text-gray-500';
+                    let anonText = item.anonymity || 'Unknown';
+                    if (anonText === 'Elite') anonColor = 'text-purple-600 dark:text-purple-400 font-bold';
+                    if (anonText === 'Anonymous') anonColor = 'text-blue-600 dark:text-blue-400 font-semibold';
+                    if (anonText === 'Transparent') anonColor = 'text-orange-600 dark:text-orange-400 font-medium';
+
+                    // Warna Identitas Protocol
+                    let protoColor = 'text-gray-600 dark:text-gray-300 font-semibold';
                     const protoText = item.protocol || 'HTTP';
-                    const anonText = item.anonymity || 'Unknown';
+                    if (protoText === 'SOCKS5') protoColor = 'text-pink-600 dark:text-pink-400 font-bold';
+                    if (protoText === 'SOCKS4') protoColor = 'text-teal-600 dark:text-teal-400 font-bold';
+
                     const countryCode = item.country_code ? item.country_code.toLowerCase() : 'un';
                     const countryName = item.country || 'Unknown';
                     const copyText = `${protoText.toLowerCase()}://${item.proxy}`;
@@ -293,27 +310,21 @@
                             
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-2 h-2 rounded-full bg-red-500 group-hover:bg-brandGreen border border-black dark:border-none transition duration-300"></div>
-                                    <span class="font-bold text-gray-900 dark:text-white tracking-wide border-b border-transparent group-hover:border-gray-400 dark:group-hover:border-gray-600 transition-colors cursor-pointer" onclick="copyToClipboard('${copyText}')">${item.proxy}</span>
+                                    <div class="w-2.5 h-2.5 rounded-full ${dotColor} border border-black dark:border-none transition duration-300 shadow-sm"></div>
+                                    <span class="font-bold text-gray-900 dark:text-white tracking-wide font-mono text-sm">${item.proxy}</span>
                                 </div>
                             </td>
                             
                             <td class="px-6 py-4">
-                                <span class="bg-gray-200 dark:bg-darkBase border border-gray-400 dark:border-darkBorder px-3 py-1.5 rounded-full text-xs font-extrabold text-gray-800 dark:text-gray-300 shadow-sm dark:shadow-none">${protoText}</span>
+                                <span class="${protoColor} bg-gray-100 dark:bg-darkBase border border-gray-300 dark:border-darkBorder px-3 py-1.5 rounded-full text-xs shadow-sm dark:shadow-none">${protoText}</span>
                             </td>
                             
                             <td class="px-6 py-4">
-                                <div class="flex flex-col">
-                                    <span class="text-sm text-gray-900 dark:text-gray-300 font-bold">${anonText}</span>
-                                    <span class="text-xs text-brandGreen font-bold drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none">Verified</span>
-                                </div>
+                                <span class="text-sm ${anonColor}">${anonText}</span>
                             </td>
                             
                             <td class="px-6 py-4">
-                                <div class="flex items-center gap-2">
-                                    <span class="px-2 py-1 rounded text-xs font-bold border border-gray-200 dark:border-none ${scoreBg} ${scoreColor}">${scoreText}</span>
-                                    <span class="text-xs font-bold text-gray-500">(${item.latency_ms}ms)</span>
-                                </div>
+                                <span class="text-sm font-bold font-mono ${latencyColor}">${item.latency_ms} ms</span>
                             </td>
                             
                             <td class="px-6 py-4 text-right">
@@ -343,7 +354,7 @@
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => { 
-                alert(`Network Copied:\n${text}`); 
+                alert(`Proxy Copied:\n${text}`); 
             });
         }
 
