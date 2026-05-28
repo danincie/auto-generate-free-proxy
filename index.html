@@ -70,18 +70,28 @@
             </table>
         </div>
 
-        <div class="text-center mt-6 mb-8">
-            <button id="loadMoreBtn" onclick="loadMore()" class="hidden bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold py-2 px-6 border border-gray-600 rounded shadow transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500">
-                Load More Proxies...
-            </button>
+        <div class="flex flex-col md:flex-row justify-between items-center mt-4 mb-8 text-sm text-gray-400">
+            <div id="pageInfo" class="mb-4 md:mb-0">
+                Showing <span class="font-bold text-gray-200">0</span> to <span class="font-bold text-gray-200">0</span> of <span class="font-bold text-gray-200">0</span> proxies
+            </div>
+            <div class="flex gap-2">
+                <button id="prevBtn" onclick="prevPage()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold py-2 px-4 border border-gray-600 rounded shadow transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                    &larr; Previous
+                </button>
+                <button id="nextBtn" onclick="nextPage()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold py-2 px-4 border border-gray-600 rounded shadow transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Next &rarr;
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
         let allProxies = [];
         let currentFiltered = [];
-        let displayLimit = 50; // Jumlah proxy yang ditampilkan pertama kali
-        const ITEMS_PER_PAGE = 50; // Jumlah tambahan setiap kali Load More diklik
+        
+        // Konfigurasi Halaman
+        let currentPage = 1;
+        const ITEMS_PER_PAGE = 25; // Maksimal 25 proxy per halaman
 
         async function fetchProxies() {
             try {
@@ -94,8 +104,7 @@
                 allProxies = data.proxies;
                 populateCountryDropdown(allProxies);
                 
-                // Memicu filter untuk pertama kali agar data dirender
-                applyFilters(); 
+                applyFilters(); // Render pertama kali
             } catch (error) {
                 document.getElementById('proxyTableBody').innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-red-500">Error loading data.</td></tr>`;
             }
@@ -119,7 +128,6 @@
             const fAnon = document.getElementById('filterAnon').value;
             const fCountry = document.getElementById('filterCountry').value;
 
-            // Memperbarui daftar yang lolos filter
             currentFiltered = allProxies.filter(item => {
                 const protoStr = item.protocol || 'HTTP';
                 return (item.proxy.toLowerCase().includes(search) || (item.country && item.country.toLowerCase().includes(search))) &&
@@ -128,17 +136,22 @@
                        (fCountry === 'all' || item.country === fCountry);
             });
 
-            // Reset limit tampilan ke 50 setiap kali filter diganti
-            displayLimit = ITEMS_PER_PAGE; 
+            // Wajib reset ke halaman 1 setiap kali pengguna mengganti filter/mencari
+            currentPage = 1; 
             renderTable();
         }
 
         function renderTable() {
             const tableBody = document.getElementById('proxyTableBody');
-            const btnLoadMore = document.getElementById('loadMoreBtn');
+            const totalItems = currentFiltered.length;
+            const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+            // Menghitung indeks potongan array untuk halaman saat ini
+            const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+            const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
             
-            // Hanya mengambil data sesuai limit tampilan
-            const proxiesToShow = currentFiltered.slice(0, displayLimit);
+            // Mengambil hanya 25 data sesuai halaman
+            const proxiesToShow = currentFiltered.slice(startIndex, endIndex);
             
             let htmlContent = '';
 
@@ -182,20 +195,30 @@
                 });
             }
 
-            // Memperbarui DOM sekaligus (Jauh lebih cepat dan anti-lag)
             tableBody.innerHTML = htmlContent;
 
-            // Menampilkan atau menyembunyikan tombol Load More
-            if (displayLimit < currentFiltered.length) {
-                btnLoadMore.classList.remove('hidden');
-            } else {
-                btnLoadMore.classList.add('hidden');
+            // Memperbarui teks info halaman dan status tombol Next/Prev
+            const displayStart = totalItems > 0 ? startIndex + 1 : 0;
+            document.getElementById('pageInfo').innerHTML = `Showing <span class="font-bold text-gray-200">${displayStart}</span> to <span class="font-bold text-gray-200">${endIndex}</span> of <span class="font-bold text-gray-200">${totalItems}</span> proxies`;
+
+            // Matikan tombol jika berada di ujung halaman
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
             }
         }
 
-        function loadMore() {
-            displayLimit += ITEMS_PER_PAGE;
-            renderTable();
+        function nextPage() {
+            const totalPages = Math.ceil(currentFiltered.length / ITEMS_PER_PAGE);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+            }
         }
 
         function copyToClipboard(text) {
