@@ -7,20 +7,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans antialiased">
-    <div class="max-w-4xl mx-auto p-6 mt-10">
+    <div class="max-w-5xl mx-auto p-6 mt-10">
         <header class="text-center mb-10">
             <h1 class="text-4xl font-bold text-green-400 mb-2">Live Free Proxies</h1>
             <p class="text-gray-400">Scraped and verified automatically.</p>
-            <div class="mt-4 inline-block bg-gray-800 px-4 py-2 rounded-lg text-sm">
+            <div class="mt-4 inline-block bg-gray-800 px-4 py-2 rounded-lg text-sm shadow">
                 Status: <span id="activeCount" class="text-green-400 font-bold">Loading...</span> | 
                 Last Update: <span id="lastUpdated" class="text-yellow-400">Loading...</span>
             </div>
         </header>
 
-        <div class="bg-gray-800 shadow-lg rounded-lg overflow-hidden border border-gray-700">
+        <div class="bg-gray-800 shadow-xl rounded-lg overflow-hidden border border-gray-700">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-gray-700 text-gray-300 text-sm uppercase tracking-wide">
+                    <tr class="bg-gray-750 text-gray-300 text-sm uppercase tracking-wide border-b border-gray-600">
+                        <th class="px-6 py-4 font-semibold text-center">Location</th>
                         <th class="px-6 py-4 font-semibold">IP Address : Port</th>
                         <th class="px-6 py-4 font-semibold text-center">Latency (ms)</th>
                         <th class="px-6 py-4 font-semibold text-center">Action</th>
@@ -28,8 +29,8 @@
                 </thead>
                 <tbody id="proxyTableBody" class="divide-y divide-gray-700">
                     <tr>
-                        <td colspan="3" class="px-6 py-8 text-center text-gray-500">
-                            Fetching data...
+                        <td colspan="4" class="px-6 py-8 text-center text-gray-500">
+                            <div class="animate-pulse">Fetching proxy data...</div>
                         </td>
                     </tr>
                 </tbody>
@@ -40,7 +41,6 @@
     <script>
         async function fetchProxies() {
             try {
-                // Membaca file JSON yang digenerate oleh Python
                 const response = await fetch('working_proxies.json');
                 const data = await response.json();
 
@@ -51,23 +51,36 @@
                 tableBody.innerHTML = '';
 
                 if (data.proxies.length === 0) {
-                    tableBody.innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-red-400">No active proxies found at the moment.</td></tr>`;
+                    tableBody.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-red-400">No active proxies found at the moment.</td></tr>`;
                     return;
                 }
 
                 data.proxies.forEach(item => {
-                    // Memberikan warna pada indikator kecepatan
+                    // Warna indikator kecepatan ping
                     let latencyColor = 'text-green-400';
                     if (item.latency_ms > 1000) latencyColor = 'text-yellow-400';
                     if (item.latency_ms > 2000) latencyColor = 'text-red-400';
 
+                    // Menangani data negara
+                    const countryCode = item.country_code ? item.country_code.toLowerCase() : 'un';
+                    const countryName = item.country || 'Unknown';
+                    
+                    // Membuat ikon bendera
+                    let flagHtml = `<span class="text-gray-500 text-xs">Unknown</span>`;
+                    if (countryCode !== 'un') {
+                        flagHtml = `<img src="https://flagcdn.com/24x18/${countryCode}.png" alt="${countryName}" title="${countryName}" class="inline-block rounded shadow-sm">`;
+                    }
+
                     const row = `
                         <tr class="hover:bg-gray-750 transition duration-150">
-                            <td class="px-6 py-4 font-mono text-sm">${item.proxy}</td>
+                            <td class="px-6 py-4 text-center" title="${countryName}">
+                                ${flagHtml}
+                            </td>
+                            <td class="px-6 py-4 font-mono text-sm text-gray-200">${item.proxy}</td>
                             <td class="px-6 py-4 text-center font-mono text-sm ${latencyColor}">${item.latency_ms} ms</td>
                             <td class="px-6 py-4 text-center">
-                                <button onclick="copyToClipboard('${item.proxy}')" class="bg-gray-700 hover:bg-gray-600 text-white text-xs py-1 px-3 rounded transition">
-                                    Copy
+                                <button onclick="copyToClipboard('${item.proxy}')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs py-1.5 px-3 rounded shadow transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-50">
+                                    Copy IP
                                 </button>
                             </td>
                         </tr>
@@ -75,17 +88,16 @@
                     tableBody.innerHTML += row;
                 });
             } catch (error) {
-                document.getElementById('proxyTableBody').innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-red-500">Error loading proxy data. Make sure JSON file exists.</td></tr>`;
+                document.getElementById('proxyTableBody').innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-red-500">Error loading proxy data. Ensure JSON file is generated.</td></tr>`;
             }
         }
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
-                alert(`Copied: ${text}`);
+                alert(`Proxy Copied: ${text}`);
             });
         }
 
-        // Jalankan fungsi saat halaman dimuat
         fetchProxies();
     </script>
 </body>
