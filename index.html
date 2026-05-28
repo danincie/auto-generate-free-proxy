@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Generate Free Proxy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans antialiased">
+    <div class="max-w-4xl mx-auto p-6 mt-10">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-green-400 mb-2">Live Free Proxies</h1>
+            <p class="text-gray-400">Scraped and verified automatically.</p>
+            <div class="mt-4 inline-block bg-gray-800 px-4 py-2 rounded-lg text-sm">
+                Status: <span id="activeCount" class="text-green-400 font-bold">Loading...</span> | 
+                Last Update: <span id="lastUpdated" class="text-yellow-400">Loading...</span>
+            </div>
+        </header>
+
+        <div class="bg-gray-800 shadow-lg rounded-lg overflow-hidden border border-gray-700">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-700 text-gray-300 text-sm uppercase tracking-wide">
+                        <th class="px-6 py-4 font-semibold">IP Address : Port</th>
+                        <th class="px-6 py-4 font-semibold text-center">Latency (ms)</th>
+                        <th class="px-6 py-4 font-semibold text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="proxyTableBody" class="divide-y divide-gray-700">
+                    <tr>
+                        <td colspan="3" class="px-6 py-8 text-center text-gray-500">
+                            Fetching data...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function fetchProxies() {
+            try {
+                // Membaca file JSON yang digenerate oleh Python
+                const response = await fetch('working_proxies.json');
+                const data = await response.json();
+
+                document.getElementById('lastUpdated').textContent = data.last_updated;
+                document.getElementById('activeCount').textContent = `${data.total_active} Active Proxies`;
+
+                const tableBody = document.getElementById('proxyTableBody');
+                tableBody.innerHTML = '';
+
+                if (data.proxies.length === 0) {
+                    tableBody.innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-red-400">No active proxies found at the moment.</td></tr>`;
+                    return;
+                }
+
+                data.proxies.forEach(item => {
+                    // Memberikan warna pada indikator kecepatan
+                    let latencyColor = 'text-green-400';
+                    if (item.latency_ms > 1000) latencyColor = 'text-yellow-400';
+                    if (item.latency_ms > 2000) latencyColor = 'text-red-400';
+
+                    const row = `
+                        <tr class="hover:bg-gray-750 transition duration-150">
+                            <td class="px-6 py-4 font-mono text-sm">${item.proxy}</td>
+                            <td class="px-6 py-4 text-center font-mono text-sm ${latencyColor}">${item.latency_ms} ms</td>
+                            <td class="px-6 py-4 text-center">
+                                <button onclick="copyToClipboard('${item.proxy}')" class="bg-gray-700 hover:bg-gray-600 text-white text-xs py-1 px-3 rounded transition">
+                                    Copy
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            } catch (error) {
+                document.getElementById('proxyTableBody').innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-red-500">Error loading proxy data. Make sure JSON file exists.</td></tr>`;
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`Copied: ${text}`);
+            });
+        }
+
+        // Jalankan fungsi saat halaman dimuat
+        fetchProxies();
+    </script>
+</body>
+</html>

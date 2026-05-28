@@ -1,0 +1,35 @@
+name: Auto Update Proxies
+
+on:
+  schedule:
+    - cron: "0 */6 * * *" # Berjalan otomatis setiap 6 jam
+  workflow_dispatch: # Memunculkan tombol manual di GitHub
+
+permissions:
+  contents: write # Memberikan izin agar bot bisa menyimpan file JSON ke repo
+
+jobs:
+  run-proxy-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Requirements
+        run: pip install -r requirements.txt
+
+      - name: Run Proxy Bot
+        run: python main.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add working_proxies.txt working_proxies.json
+          git commit -m "bot: auto update proxy list" || echo "No changes to commit"
+          git push
