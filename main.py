@@ -2,6 +2,7 @@ import asyncio
 import aiohttp
 import json
 import time
+from aiohttp_socks import ProxyConnector
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
 
@@ -10,7 +11,7 @@ console = Console()
 class ModernProxyBot:
     def __init__(self, config_path="config.json"):
         self.config = self.load_config(config_path)
-        self.raw_proxies = set()
+        self.raw_proxies = [] # Sekarang menyimpan dict {ip, protocol}
         self.working_proxies = []
 
     def load_config(self, path):
@@ -18,71 +19,93 @@ class ModernProxyBot:
             with open(path, 'r') as f:
                 return json.load(f)
         except FileNotFoundError:
-            console.print("[red]config.json tidak ditemukan, menggunakan pengaturan default.[/red]")
-            return {"timeout": 5, "sources": []}
+            console.print("[red]config.json tidak ditemukan![/red]")
+            return {"timeout": 5, "sources": {}}
 
-    async def fetch_source(self, session, url):
+    async def fetch_source(self, session, url, protocol):
         try:
             async with session.get(url, timeout=10) as response:
                 if response.status == 200:
                     text = await response.text()
                     proxies = [p.strip() for p in text.strip().split('\n') if p.strip()]
-                    self.raw_proxies.update(proxies)
+                    for p in proxies:
+                        self.raw_proxies.append({"ip": p, "protocol": protocol})
         except Exception:
             pass 
 
     async def scrape_proxies(self):
-        console.print("[bold cyan]Memulai Scraping Proxy Asynchronous...[/bold cyan]")
+        console.print("[bold cyan]Memulai Scraping Multi-Protokol...[/bold cyan]")
         async with aiohttp.ClientSession() as session:
-            tasks = [self.fetch_source(session, url) for url in self.config.get('sources', [])]
+            tasks = []
+            for protocol, urls in self.config.get('sources', {}).items():
+                for url in urls:
+                    tasks.append(self.fetch_source(session, url, protocol))
             await asyncio.gather(*tasks)
+        
+        # Menghapus duplikat
+        self.raw_proxies = [dict(t) for t in {tuple(d.items()) for d in self.raw_proxies}]
         console.print(f"[bold green]✓ Berhasil mengumpulkan {len(self.raw_proxies)} proxy mentah.[/bold green]\n")
 
-    async def check_proxy(self, proxy, session, progress, task_id):
-        proxy_url = f"http://{proxy}"
+    async def check_proxy(self, proxy_info, progress, task_id):
+        proxy_ip = proxy_info['ip']
+        protocol = proxy_info['protocol']
         start_time = time.time()
+        
         try:
-            # Endpoint diubah ke /get untuk membaca HTTP Headers
-            async with session.get('http://httpbin.org/get', proxy=proxy_url, timeout=self.config.get('timeout', 5)) as response:
-                if response.status == 200:
-                    data = await response.json()
-                    latency = round((time.time() - start_time) * 1000)
-                    
-                    # --- LOGIKA DETEKSI ANONIMITAS ---
-                    headers = {k.lower(): v for k, v in data.get('headers', {}).items()}
-                    anonymity = "Elite"
-                    
-                    if 'x-forwarded-for' in headers or 'x-real-ip' in headers:
-                        anonymity = "Transparent"
-                    elif 'via' in headers or 'forwarded' in headers:
-                        anonymity = "Anonymous"
-                    # ---------------------------------
-
-                    self.working_proxies.append({
-                        "proxy": proxy,
-                        "latency_ms": latency,
-                        "anonymity": anonymity # Data anonimitas disimpan ke JSON
-                    })
+            if protocol in ['socks4', 'socks5']:
+                connector = ProxyConnector.from_url(f"{protocol}://{proxy_ip}")
+                async with aiohttp.ClientSession(connector=connector) as session:
+                    async with session.get('http://httpbin.org/get', timeout=self.config.get('timeout', 5)) as response:
+                        if response.status == 200:
+                            data = await response.json()
+                            self._process_success(proxy_ip, protocol, start_time, data)
+            else:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get('http://httpbin.org/get', proxy=f"http://{proxy_ip}", timeout=self.config.get('timeout', 5)) as response:
+                        if response.status == 200:
+                            data = await response.json()
+                            self._process_success(proxy_ip, protocol, start_time, data)
         except Exception:
             pass
         finally:
             progress.advance(task_id)
 
+    def _process_success(self, proxy_ip, protocol, start_time, data):
+        latency = round((time.time() - start_time) * 1000)
+        headers = {k.lower(): v for k, v in data.get('headers', {}).items()}
+        anonymity = "Elite"
+        
+        if 'x-forwarded-for' in headers or 'x-real-ip' in headers:
+            anonymity = "Transparent"
+        elif 'via' in headers or 'forwarded' in headers:
+            anonymity = "Anonymous"
+
+        self.working_proxies.append({
+            "proxy": proxy_ip,
+            "protocol": protocol.upper(),
+            "latency_ms": latency,
+            "anonymity": anonymity
+        })
+
     async def verify_proxies(self):
-        console.print("[bold cyan]Memverifikasi Kualitas Proxy...[/bold cyan]")
-        connector = aiohttp.TCPConnector(limit_per_host=0, limit=200)
-        async with aiohttp.ClientSession(connector=connector) as session:
-            with Progress(
-                SpinnerColumn(),
-                TextColumn("[progress.description]{task.description}"),
-                BarColumn(),
-                TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
-                TimeElapsedColumn(),
-            ) as progress:
-                
-                task = progress.add_task("[yellow]Memeriksa IP dan Tingkat Anonimitas...", total=len(self.raw_proxies))
-                tasks = [self.check_proxy(proxy, session, progress, task) for proxy in self.raw_proxies]
-                await asyncio.gather(*tasks)
+        console.print("[bold cyan]Memverifikasi Kualitas Proxy (HTTP & SOCKS)...[/bold cyan]")
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            BarColumn(),
+            TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+            TimeElapsedColumn(),
+        ) as progress:
+            task = progress.add_task("[yellow]Memeriksa IP...", total=len(self.raw_proxies))
+            
+            # Membatasi concurrency agar tidak membebani memori dengan pembuatan banyak ClientSession
+            semaphore = asyncio.Semaphore(200)
+            async def sem_task(proxy_info):
+                async with semaphore:
+                    await self.check_proxy(proxy_info, progress, task)
+            
+            tasks = [sem_task(proxy_info) for proxy_info in self.raw_proxies]
+            await asyncio.gather(*tasks)
         
         self.working_proxies = sorted(self.working_proxies, key=lambda x: x['latency_ms'])
         console.print(f"\n[bold green]✓ Ditemukan {len(self.working_proxies)} proxy aktif![/bold green]")
@@ -120,7 +143,7 @@ class ModernProxyBot:
 
         with open('working_proxies.txt', 'w') as f:
             for p in self.working_proxies:
-                f.write(f"{p['proxy']}\n")
+                f.write(f"{p['protocol'].lower()}://{p['proxy']}\n")
         
         with open('working_proxies.json', 'w') as f:
             json.dump({
@@ -129,7 +152,7 @@ class ModernProxyBot:
                 "proxies": self.working_proxies
             }, f, indent=4)
         
-        console.print("\n[bold blue]Data berhasil diekspor ke working_proxies.txt & working_proxies.json[/bold blue]")
+        console.print("\n[bold blue]Data berhasil diekspor![/bold blue]")
 
 async def main():
     bot = ModernProxyBot()
@@ -145,5 +168,4 @@ if __name__ == "__main__":
     import sys
     if sys.platform == 'win32':
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-        
     asyncio.run(main())
