@@ -87,15 +87,18 @@
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-2xl p-6 shadow-brutal dark:shadow-sm transition-colors duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div class="text-xs text-gray-600 dark:text-gray-400 font-bold uppercase tracking-wider">Total Active Proxies</div>
-                    <svg class="w-5 h-5 text-gray-900 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+            <div class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-2xl p-6 shadow-brutal dark:shadow-sm transition-colors duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-xs text-gray-600 dark:text-gray-400 font-bold uppercase tracking-wider">Total Active Proxies</div>
+                        <svg class="w-5 h-5 text-gray-900 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    </div>
+                    <div class="flex items-end gap-3 mb-2">
+                        <div class="text-5xl font-black text-brandGreen drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:drop-shadow-none" id="displayActiveCount">...</div>
+                        <div class="text-sm font-bold text-gray-600 dark:text-gray-500 mb-2">Proxies Verified</div>
+                    </div>
                 </div>
-                <div class="flex items-end gap-3">
-                    <div class="text-5xl font-black text-brandGreen drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:drop-shadow-none" id="displayActiveCount">...</div>
-                    <div class="text-sm font-bold text-gray-600 dark:text-gray-500 mb-2">Proxies Verified</div>
-                </div>
+                <div class="text-xs font-semibold text-gray-500">Only high-quality nodes are displayed.</div>
             </div>
             
             <div class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-2xl p-6 shadow-brutal dark:shadow-sm transition-colors duration-300">
@@ -103,11 +106,21 @@
                     <div class="text-xs text-gray-600 dark:text-gray-400 font-bold uppercase tracking-wider">Last Sync Time</div>
                     <svg class="w-5 h-5 text-gray-900 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
-                <div class="text-2xl font-black text-gray-900 dark:text-white mb-3" id="lastUpdated">Fetching...</div>
-                <div class="w-full bg-gray-200 dark:bg-darkBase border border-gray-900 dark:border-none rounded-full h-2 mb-1">
+                
+                <div class="text-2xl font-black text-gray-900 dark:text-white mb-1" id="lastUpdated">Fetching...</div>
+                
+                <div class="text-xs font-extrabold text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none mb-4">
+                    <span class="inline-block animate-pulse mr-1">⚡</span> Auto-updates every 1 hour
+                </div>
+                
+                <div class="w-full bg-gray-200 dark:bg-darkBase border border-gray-900 dark:border-none rounded-full h-2 mb-2">
                     <div class="bg-brandGreen h-full rounded-full border-r border-gray-900 dark:border-none w-full"></div>
                 </div>
-                <div class="text-xs font-bold text-gray-500 text-right">System Uptime: 100%</div>
+                
+                <div class="flex justify-between items-center text-xs font-bold text-gray-500">
+                    <span>System Uptime: 100%</span>
+                    <span>Your Time: <span id="localClock" class="text-gray-900 dark:text-gray-300 font-mono">--:--:--</span></span>
+                </div>
             </div>
         </div>
 
@@ -174,6 +187,17 @@
     </main>
 
     <script>
+        // --- LOGIKA JAM LOKAL (LIVE) ---
+        function updateClock() {
+            const now = new Date();
+            // Format waktu lokal (HH:MM:SS)
+            document.getElementById('localClock').textContent = now.toLocaleTimeString(undefined, {
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
+        }
+        setInterval(updateClock, 1000); // Update setiap 1 detik
+        updateClock(); // Panggil pertama kali langsung
+
         // --- LOGIKA SAKELAR TEMA (DARK/LIGHT MODE) ---
         const htmlElement = document.documentElement;
         const themeKnob = document.getElementById('themeKnob');
@@ -212,10 +236,22 @@
 
         async function fetchProxies() {
             try {
+                // Fetch JSON dengan cache-busting
                 const response = await fetch('working_proxies.json?v=' + new Date().getTime());
                 const data = await response.json();
 
-                document.getElementById('lastUpdated').textContent = data.last_updated;
+                // KONVERSI WAKTU SERVER (UTC) KE WAKTU LOKAL PENGGUNA
+                // Format dari Python: "2026-05-28 12:50:10"
+                // Kita ganti spasi dengan 'T' dan tambah 'Z' agar Javascript tahu ini adalah UTC
+                const utcDateStr = data.last_updated.replace(' ', 'T') + 'Z';
+                const dateObj = new Date(utcDateStr);
+                
+                // Tampilkan format tanggal/waktu yang enak dibaca sesuai zona waktu user
+                document.getElementById('lastUpdated').textContent = dateObj.toLocaleString(undefined, {
+                    month: 'short', day: 'numeric', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit', second: '2-digit'
+                });
+
                 document.getElementById('displayActiveCount').textContent = data.total_active.toLocaleString();
 
                 allProxies = data.proxies;
@@ -272,7 +308,6 @@
             } else {
                 proxiesToShow.forEach(item => {
                     
-                    // Indikator Warna Latency
                     let latencyColor = 'text-green-600 dark:text-green-400';
                     let dotColor = 'bg-green-500 dark:bg-green-400';
                     
@@ -285,14 +320,12 @@
                         dotColor = 'bg-red-500 dark:bg-red-400'; 
                     }
 
-                    // Warna Identitas Anonimitas
                     let anonColor = 'text-gray-500';
                     let anonText = item.anonymity || 'Unknown';
                     if (anonText === 'Elite') anonColor = 'text-purple-600 dark:text-purple-400 font-bold';
                     if (anonText === 'Anonymous') anonColor = 'text-blue-600 dark:text-blue-400 font-semibold';
                     if (anonText === 'Transparent') anonColor = 'text-orange-600 dark:text-orange-400 font-medium';
 
-                    // Warna Identitas Protocol
                     let protoColor = 'text-gray-600 dark:text-gray-300 font-semibold';
                     const protoText = item.protocol || 'HTTP';
                     if (protoText === 'SOCKS5') protoColor = 'text-pink-600 dark:text-pink-400 font-bold';
