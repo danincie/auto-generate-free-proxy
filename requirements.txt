@@ -1,3 +1,4 @@
 aiohttp
 rich
 aiohttp_socks
+geoip2

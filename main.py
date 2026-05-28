@@ -2,6 +2,9 @@ import asyncio
 import aiohttp
 import json
 import time
+import os
+import urllib.request
+import geoip2.database
 from aiohttp_socks import ProxyConnector
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
@@ -11,7 +14,7 @@ console = Console()
 class ModernProxyBot:
     def __init__(self, config_path="config.json"):
         self.config = self.load_config(config_path)
-        self.raw_proxies = [] # Sekarang menyimpan dict {ip, protocol}
+        self.raw_proxies = [] # Menyimpan dict {ip, protocol}
         self.working_proxies = []
 
     def load_config(self, path):
@@ -42,7 +45,7 @@ class ModernProxyBot:
                     tasks.append(self.fetch_source(session, url, protocol))
             await asyncio.gather(*tasks)
         
-        # Menghapus duplikat
+        # Menghapus duplikat data mentah
         self.raw_proxies = [dict(t) for t in {tuple(d.items()) for d in self.raw_proxies}]
         console.print(f"[bold green]✓ Berhasil mengumpulkan {len(self.raw_proxies)} proxy mentah.[/bold green]\n")
 
@@ -98,7 +101,6 @@ class ModernProxyBot:
         ) as progress:
             task = progress.add_task("[yellow]Memeriksa IP...", total=len(self.raw_proxies))
             
-            # Membatasi concurrency agar tidak membebani memori dengan pembuatan banyak ClientSession
             semaphore = asyncio.Semaphore(200)
             async def sem_task(proxy_info):
                 async with semaphore:
@@ -111,30 +113,53 @@ class ModernProxyBot:
         console.print(f"\n[bold green]✓ Ditemukan {len(self.working_proxies)} proxy aktif![/bold green]")
 
     async def enrich_with_geo_data(self):
-        console.print("\n[bold cyan]Melacak Lokasi Geografis Proxy...[/bold cyan]")
-        async with aiohttp.ClientSession() as session:
-            with Progress(
-                SpinnerColumn(),
-                TextColumn("[progress.description]{task.description}"),
-                BarColumn(),
-                TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
-            ) as progress:
-                
-                task = progress.add_task("[yellow]Mencari bendera negara...", total=len(self.working_proxies))
-                
+        console.print("\n[bold cyan]Melacak Lokasi Geografis (Mode Database Lokal MaxMind)...[/bold cyan]")
+        db_path = "GeoLite2-Country.mmdb"
+        
+        # Otomatis mengunduh berkas database jika belum ada di folder lokalan
+        if not os.path.exists(db_path):
+            console.print("[yellow]Database lokal tidak ditemukan. Mengunduh database GeoIP...[/yellow]")
+            url = "https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-Country.mmdb"
+            try:
+                urllib.request.urlretrieve(url, db_path)
+                console.print("[green]✓ Database GeoIP berhasil diunduh secara lokal.[/green]")
+            except Exception as e:
+                console.print(f"[red]Gagal mengunduh database: {e}[/red]")
+                # Mekanisme pertahanan aman agar bot tidak crash jika internet mati saat unduh database
                 for item in self.working_proxies:
-                    ip_only = item['proxy'].split(':')[0]
-                    try:
-                        async with session.get(f"http://ip-api.com/json/{ip_only}", timeout=5) as response:
-                            if response.status == 200:
-                                data = await response.json()
-                                item['country'] = data.get('country', 'Unknown')
-                                item['country_code'] = data.get('countryCode', 'UN')
-                    except Exception:
-                        item['country'] = 'Unknown'
-                        item['country_code'] = 'UN'
-                    finally:
-                        progress.advance(task)
+                    item['country'] = 'Unknown'
+                    item['country_code'] = 'UN'
+                return
+
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            BarColumn(),
+            TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+        ) as progress:
+            
+            task = progress.add_task("[yellow]Mencocokkan IP dengan Kamus Database...", total=len(self.working_proxies))
+            
+            try:
+                # Membuka kamus biner lokal
+                with geoip2.database.Reader(db_path) as reader:
+                    for item in self.working_proxies:
+                        ip_only = item['proxy'].split(':')[0]
+                        try:
+                            response = reader.country(ip_only)
+                            item['country'] = response.country.name or 'Unknown'
+                            item['country_code'] = response.country.iso_code or 'UN'
+                        except Exception:
+                            item['country'] = 'Unknown'
+                            item['country_code'] = 'UN'
+                        finally:
+                            progress.advance(task)
+            except Exception as e:
+                console.print(f"[red]Gagal membaca database GeoIP: {e}[/red]")
+                for item in self.working_proxies:
+                    item['country'] = 'Unknown'
+                    item['country_code'] = 'UN'
+                    progress.advance(task)
 
     def export_data(self):
         if not self.working_proxies:
