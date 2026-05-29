@@ -94,19 +94,20 @@
         </div>
     </aside>
 
-    <main class="flex-1 p-4 sm:p-6 lg:p-8 h-screen overflow-y-auto">
+    <main class="flex-1 p-4 sm:p-6 lg:px-8 lg:pt-4 lg:pb-8 h-screen overflow-y-auto">
         
-        <!-- HEADER ATAS -->
-        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-            <!-- Judul Kiri (Teks deskripsi lama dihapus dari sini) -->
-            <div>
-                <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">Live Free Proxies</h1>
+        <!-- HEADER ATAS (Rapat & Sejajar) -->
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-5 gap-4">
+            
+            <!-- Judul Kiri (Diperkecil sedikit agar sejajar rapi dengan tombol) -->
+            <div class="flex items-center">
+                <h1 class="text-2xl sm:text-[26px] font-black text-gray-900 dark:text-white tracking-tight leading-none mt-1">Live Free Proxies</h1>
             </div>
             
             <!-- Area Kanan Header: Theme Toggle & GitHub Icon -->
             <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
                 
-                <!-- Theme Toggle Button (Ukurannya diperkecil agar proporsional) -->
+                <!-- Theme Toggle Button -->
                 <button onclick="toggleTheme()" class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-full px-4 py-1.5 flex items-center gap-2 shadow-brutal-sm dark:shadow-sm hover:-translate-y-0.5 transition-transform focus:outline-none">
                     <div class="w-10 h-5 bg-brandGreen border-2 border-gray-900 dark:border-none rounded-full flex items-center p-0.5 relative">
                         <div id="themeKnob" class="w-3.5 h-3.5 bg-black rounded-full absolute transition-all duration-300 left-1 dark:translate-x-4"></div>
@@ -115,9 +116,9 @@
                 </button>
 
                 <!-- Garis Pemisah (Divider) -->
-                <div class="hidden sm:block w-0.5 h-6 bg-gray-200 dark:bg-gray-800/50 rounded-full"></div>
+                <div class="hidden sm:block w-0.5 h-7 bg-gray-200 dark:bg-gray-800/50 rounded-full"></div>
 
-                <!-- Ikon GitHub (Original & Diperbesar) -->
+                <!-- Ikon GitHub (Diperbesar & Logo Ori) -->
                 <a href="https://github.com/danincie" target="_blank" rel="noopener noreferrer" class="flex items-center group cursor-pointer" title="View Creator on GitHub">
                     <div class="w-11 h-11 rounded-full border-2 border-gray-900 dark:border-gray-700 overflow-hidden shadow-brutal-sm dark:shadow-sm group-hover:shadow-none group-hover:translate-y-0.5 group-hover:border-brandGreen dark:group-hover:border-brandGreen transition-all relative bg-white dark:bg-[#1a1c23] flex items-center justify-center">
                         <svg class="w-7 h-7 text-gray-900 dark:text-white group-hover:text-brandGreen transition-colors" fill="currentColor" viewBox="0 0 24 24">
@@ -129,13 +130,14 @@
             </div>
         </header>
 
-        <!-- BANNER INFORMASI (Ala Grass) -->
-        <div class="bg-white dark:bg-[#1a1d24] border-2 border-gray-900 dark:border-gray-800/50 rounded-2xl p-4 mb-8 shadow-brutal-sm dark:shadow-sm flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 transition-colors duration-300">
+        <!-- BANNER INFORMASI -->
+        <div class="bg-white dark:bg-[#1a1d24] border-2 border-gray-900 dark:border-gray-800/50 rounded-2xl p-4 mb-6 shadow-brutal-sm dark:shadow-sm flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 transition-colors duration-300">
             <div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-darkBase flex items-center justify-center flex-shrink-0 border border-gray-200 dark:border-gray-800">
                 <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
+            <!-- Bold dihapus, teks dibuat seragam -->
             <p class="text-[13px] sm:text-sm font-medium text-gray-600 dark:text-gray-400 leading-relaxed">
-                <span class="font-bold text-gray-900 dark:text-gray-200">Welcome to Proxinci!</span> HTTP, SOCKS4, and SOCKS5 proxies are continuously scraped, verified, and displayed automatically on this dashboard.
+                Welcome to Proxinci! HTTP, SOCKS4, and SOCKS5 proxies are continuously scraped, verified, and displayed automatically on this dashboard.
             </p>
         </div>
 
