@@ -102,10 +102,8 @@
                 <p class="text-sm font-medium text-gray-600 dark:text-gray-400">HTTP, SOCKS4, and SOCKS5 scraped automatically.</p>
             </div>
             
-            <!-- Area Kanan Header: Theme Toggle & Creator Profile -->
             <div class="flex items-center gap-5 w-full sm:w-auto justify-between sm:justify-end">
                 
-                <!-- Theme Toggle Button -->
                 <button onclick="toggleTheme()" class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-full px-5 py-2 flex items-center gap-3 shadow-brutal-sm dark:shadow-sm hover:-translate-y-0.5 transition-transform focus:outline-none">
                     <div class="w-10 h-5 bg-brandGreen border-2 border-gray-900 dark:border-none rounded-full flex items-center p-0.5 relative">
                         <div id="themeKnob" class="w-3.5 h-3.5 bg-black rounded-full absolute transition-all duration-300 left-1 dark:translate-x-4"></div>
@@ -113,21 +111,13 @@
                     <div id="themeText" class="text-sm font-bold text-gray-900 dark:text-white w-20 text-left">Light Theme</div>
                 </button>
 
-                <!-- Garis Pemisah (Divider) -->
                 <div class="hidden sm:block w-0.5 h-8 bg-gray-200 dark:bg-gray-800/50 rounded-full"></div>
 
-                <!-- Profil Kreator (GitHub) -->
-                <a href="https://github.com/danincie" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group cursor-pointer">
-                    <div class="text-right hidden sm:block">
-                        <p class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-0.5">Creator</p>
-                        <!-- Username Anda -->
-                        <p class="text-sm font-black text-gray-900 dark:text-white group-hover:text-brandGreen transition-colors">@danincie</p>
-                    </div>
-                    <!-- Foto Profil -->
-                    <div class="w-10 h-10 rounded-full border-2 border-gray-900 dark:border-gray-700 overflow-hidden shadow-brutal-sm dark:shadow-sm group-hover:shadow-none group-hover:translate-y-0.5 transition-all relative bg-white dark:bg-gray-800 flex items-center justify-center">
-                        <img src="https://github.com/danincie.png" alt="Danincie GitHub" class="w-full h-full object-cover relative z-10">
-                        <!-- Icon cadangan jika internet lambat memuat foto -->
-                        <svg class="absolute w-6 h-6 text-gray-300 dark:text-gray-600 z-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.447-1.27.098-2.646 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.376.202 2.394.1 2.646.64.699 1.026 1.591 1.026 2.682 0 3.84-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"></path></svg>
+                <a href="https://github.com/danincie" target="_blank" rel="noopener noreferrer" class="flex items-center group cursor-pointer" title="View Creator on GitHub">
+                    <div class="w-10 h-10 rounded-full border-2 border-gray-900 dark:border-gray-700 overflow-hidden shadow-brutal-sm dark:shadow-sm group-hover:shadow-none group-hover:translate-y-0.5 group-hover:border-brandGreen dark:group-hover:border-brandGreen transition-all relative bg-white dark:bg-gray-800 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-gray-900 dark:text-white group-hover:text-brandGreen transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.447-1.27.098-2.646 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.376.202 2.394.1 2.646.64.699 1.026 1.591 1.026 2.682 0 3.84-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"></path>
+                        </svg>
                     </div>
                 </a>
                 
