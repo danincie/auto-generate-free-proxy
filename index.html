@@ -476,12 +476,13 @@
                     const countryName = item.country || 'Unknown';
                     const copyText = `${protoText.toLowerCase()}://${item.proxy}`;
                     
+                    // Custom Tooltip Bendera (Telah disempurnakan posisinya)
                     let flagHtml = countryCode !== 'un' 
                         ? `<div class="group relative inline-block cursor-pointer">
                                <img src="https://flagcdn.com/24x18/${countryCode}.png" alt="${countryName}" class="inline-block rounded-sm shadow-sm border border-gray-300 dark:border-none w-6 h-4 object-cover">
-                               <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs font-bold rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+                               <div class="absolute bottom-full left-0 -ml-1 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs font-bold rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
                                    ${countryName}
-                                   <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+                                   <div class="absolute top-full left-3 border-4 border-transparent border-t-gray-900"></div>
                                </div>
                            </div>` 
                         : `<span class="text-gray-500 text-xs font-bold">Unk</span>`;
