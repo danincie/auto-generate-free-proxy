@@ -59,13 +59,29 @@
     <div id="toastContainer" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
 
     <aside class="w-64 bg-white dark:bg-darkBase border-r-2 border-gray-900 dark:border-r dark:border-darkBorder hidden lg:flex flex-col p-6 transition-colors duration-300">
-        <div class="flex items-center gap-2 mb-10 group cursor-pointer">
-            <svg class="w-10 h-10 text-brandGreen drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:drop-shadow-none transition-transform duration-300 group-hover:scale-110 overflow-visible" viewBox="-3 -5 30 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 14a4 4 0 0 1 4-4h8a4 4 0 1 1 0 8H8a4 4 0 0 1-4-4z" transform="rotate(-35 12 12) translate(-3.5, -5.5)" opacity="0.3"/>
-                <path d="M4 14a4 4 0 0 1 4-4h8a4 4 0 1 1 0 8H8a4 4 0 0 1-4-4z" transform="rotate(-35 12 12) translate(0, -0.5)" opacity="0.6"/>
-                <path d="M4 14a4 4 0 0 1 4-4h8a4 4 0 1 1 0 8H8a4 4 0 0 1-4-4z" transform="rotate(-35 12 12) translate(3.5, 4.5)" />
+        <!-- LOGO PROXINCI -->
+        <div class="flex items-center gap-2.5 mb-10 group cursor-pointer">
+            <!-- Kombinasi Globe & Data Capsules -->
+            <svg class="w-11 h-11 drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:drop-shadow-none transition-transform duration-300 group-hover:scale-110 overflow-visible" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                
+                <!-- Background Globe (Cyber Grid) -->
+                <g class="text-gray-900 dark:text-gray-500" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.4">
+                    <circle cx="12" cy="12" r="11" />
+                    <ellipse cx="12" cy="12" rx="4.5" ry="11" />
+                    <line x1="1" y1="12" x2="23" y2="12" />
+                    <line x1="3.5" y1="5.5" x2="20.5" y2="5.5" opacity="0.6"/>
+                    <line x1="3.5" y1="18.5" x2="20.5" y2="18.5" opacity="0.6"/>
+                </g>
+
+                <!-- Foreground Data Capsules -->
+                <g class="text-brandGreen" fill="currentColor">
+                    <path d="M4 14a4 4 0 0 1 4-4h8a4 4 0 1 1 0 8H8a4 4 0 0 1-4-4z" transform="rotate(-35 12 12) translate(-3.5, -4.5)" opacity="0.3"/>
+                    <path d="M4 14a4 4 0 0 1 4-4h8a4 4 0 1 1 0 8H8a4 4 0 0 1-4-4z" transform="rotate(-35 12 12) translate(0, -0.5)" opacity="0.6"/>
+                    <path d="M4 14a4 4 0 0 1 4-4h8a4 4 0 1 1 0 8H8a4 4 0 0 1-4-4z" transform="rotate(-35 12 12) translate(3.5, 3.5)" />
+                </g>
             </svg>
             
+            <!-- Teks Logo Lowercase + TM -->
             <span class="text-[28px] font-black tracking-tighter text-gray-900 dark:text-white flex items-start leading-none mt-1">
                 prox<span class="text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none">inci</span>
                 <span class="text-[10px] font-bold text-brandGreen ml-0.5 mt-0.5">TM</span>
