@@ -160,8 +160,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                         </svg>
                         <div class="flex flex-col gap-1 w-full">
-                            <h3 class="text-lg sm:text-[20px] font-black text-gray-900 dark:text-white tracking-tight leading-none truncate" id="lastUpdated">
-                                --:--
+                            <h3 class="text-lg sm:text-[20px] font-black text-gray-900 dark:text-white tracking-tight leading-none truncate">
+                                <span class="text-sm sm:text-[15px] font-bold text-gray-500 mr-1">Last Sync:</span><span id="lastUpdated">--:--</span>
                             </h3>
                             <p class="text-[11px] sm:text-xs font-bold text-gray-500">
                                 Updates Hourly
@@ -407,8 +407,8 @@
                 const utcDateStr = data.last_updated.replace(' ', 'T') + 'Z';
                 const dateObj = new Date(utcDateStr);
                 
-                document.getElementById('lastUpdated').textContent = dateObj.toLocaleString('en-GB', {
-                    day: '2-digit', month: '2-digit', year: 'numeric',
+                // Memformat waktu agar HANYA menampilkan jam (tanpa tanggal) sesuai zona waktu pengguna
+                document.getElementById('lastUpdated').textContent = dateObj.toLocaleTimeString('en-US', {
                     hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
                 }).toUpperCase();
 
