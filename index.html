@@ -60,24 +60,34 @@
 
     <aside class="w-64 bg-white dark:bg-darkBase border-r-2 border-gray-900 dark:border-r dark:border-darkBorder hidden lg:flex flex-col p-6 transition-colors duration-300">
         <!-- LOGO PROXINCI -->
+        <!-- LOGO PROXINCI -->
         <div class="flex items-center gap-2.5 mb-10 group cursor-pointer">
+            <!-- Kombinasi Globe & Data Capsules (Solid & High Contrast) -->
             <svg class="w-11 h-11 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 
-                <g class="stroke-gray-300 dark:stroke-gray-700" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Background Globe (Warna sangat tegas: gray-800 di light, gray-400 di dark) -->
+                <g class="stroke-gray-800 dark:stroke-gray-400" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="9.5" />
+                    <!-- Garis bujur & lintang melengkung 3D -->
                     <ellipse cx="12" cy="12" rx="4" ry="9.5" />
                     <ellipse cx="12" cy="12" rx="9.5" ry="4" />
                     <line x1="12" y1="2.5" x2="12" y2="21.5" />
                     <line x1="2.5" y1="12" x2="21.5" y2="12" />
                 </g>
 
-                <g class="fill-brandGreen drop-shadow-sm" transform="rotate(45 12 12)">
-                    <rect x="3.5" y="9" width="5" height="10" rx="2.5" opacity="0.4"/>
-                    <rect x="9.5" y="4" width="5" height="16" rx="2.5" opacity="0.75"/>
+                <!-- Foreground Data Capsules (Solid 100% dengan efek Negative Space Cutout) -->
+                <!-- stroke-white memotong di Light Mode, stroke-[#0d0f14] memotong di Dark Mode -->
+                <g class="fill-brandGreen stroke-white dark:stroke-[#0d0f14]" stroke-width="2.5" transform="rotate(45 12 12)">
+                    <!-- Kapsul Kiri -->
+                    <rect x="3.5" y="9" width="5" height="10" rx="2.5" />
+                    <!-- Kapsul Tengah (Lebih Tinggi) -->
+                    <rect x="9.5" y="4" width="5" height="16" rx="2.5" />
+                    <!-- Kapsul Kanan -->
                     <rect x="15.5" y="5" width="5" height="10" rx="2.5" />
                 </g>
             </svg>
             
+            <!-- Teks Logo -->
             <span class="text-[28px] font-black tracking-tighter text-gray-900 dark:text-white flex items-start leading-none mt-1">
                 prox<span class="text-brandGreen">inci</span>
                 <span class="text-[10px] font-bold text-brandGreen ml-0.5 mt-0.5">TM</span>
