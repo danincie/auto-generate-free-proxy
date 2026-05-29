@@ -130,20 +130,21 @@
             </div>
         </header>
 
-        <!-- BANNER INFORMASI -->
-        <div class="bg-white dark:bg-[#1a1d24] border-2 border-gray-900 dark:border-gray-800/50 rounded-2xl p-4 mb-6 shadow-brutal-sm dark:shadow-sm flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 transition-colors duration-300">
-            <div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-darkBase flex items-center justify-center flex-shrink-0 border border-gray-200 dark:border-gray-800">
-                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <!-- BANNER INFORMASI (Dengan variasi warna bg-lime-50) -->
+        <div class="bg-lime-50 dark:bg-[#1e2128] border-2 border-gray-900 dark:border-gray-800/50 rounded-2xl p-4 mb-6 shadow-brutal-sm dark:shadow-sm flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 transition-colors duration-300">
+            <div class="w-8 h-8 rounded-full bg-white dark:bg-[#121419] flex items-center justify-center flex-shrink-0 border border-gray-900 dark:border-gray-800">
+                <svg class="w-4 h-4 text-gray-700 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
-            <!-- Bold dihapus, teks dibuat seragam -->
-            <p class="text-[13px] sm:text-sm font-medium text-gray-600 dark:text-gray-400 leading-relaxed">
+            <p class="text-[13px] sm:text-sm font-medium text-gray-700 dark:text-gray-300 leading-relaxed">
                 Welcome to Proxinci! HTTP, SOCKS4, and SOCKS5 proxies are continuously scraped, verified, and displayed automatically on this dashboard.
             </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             
-            <div class="bg-white dark:bg-[#1a1d24] rounded-2xl p-6 border-2 border-gray-900 dark:border-gray-800/50 shadow-brutal dark:shadow-sm relative overflow-hidden group flex flex-col h-full">
+            <!-- Card 1: Total Active Proxies (Variasi Warna) -->
+            <!-- bg-lime-50 untuk Light Mode, bg-[#1e2128] untuk Dark Mode -->
+            <div class="bg-lime-50 dark:bg-[#1e2128] rounded-2xl p-6 border-2 border-gray-900 dark:border-gray-800/50 shadow-brutal dark:shadow-sm relative overflow-hidden group flex flex-col h-full transition-colors duration-300">
                 <div>
                     <div class="flex justify-between items-start mb-2">
                         <h2 class="text-xs font-bold text-gray-500 uppercase tracking-widest">Total Active Proxies</h2>
@@ -152,13 +153,12 @@
                         </svg>
                     </div>
                     
-                    <div class="mt-4 flex items-center bg-gray-50 dark:bg-[#121419] border border-gray-900 dark:border-gray-800/80 rounded-2xl px-5 h-24 w-full shadow-inner transition-colors duration-300">
-                        
+                    <!-- Inner Container: Diubah jadi bg-white agar kontras dengan bg-lime-50 luarnya -->
+                    <div class="mt-4 flex items-center bg-white dark:bg-[#121419] border border-gray-900 dark:border-gray-800/80 rounded-2xl px-5 h-24 w-full shadow-inner transition-colors duration-300">
                         <div class="flex flex-col justify-center pr-4 sm:pr-5 border-r border-gray-300 dark:border-gray-800/80">
                             <span class="text-xs sm:text-[13px] font-bold text-gray-500 dark:text-gray-400 leading-tight">Total</span>
                             <span class="text-sm sm:text-[16px] font-extrabold text-gray-800 dark:text-gray-200 leading-tight">Proxies:</span>
                         </div>
-
                         <div class="relative flex items-center justify-center w-8 h-8 flex-shrink-0 mx-4 sm:mx-5">
                             <div class="absolute inset-0 bg-brandGreen/40 rounded-full animate-ping blur-[2px]"></div>
                             <svg class="relative z-10 w-7 h-7 text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -167,11 +167,9 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18.364 5.636a9 9 0 010 12.728m-12.728-12.728a9 9 0 000 12.728" />
                             </svg>
                         </div>
-
                         <div id="displayActiveCount" class="text-[32px] sm:text-[36px] font-black tracking-tight text-gray-900 dark:text-white leading-none truncate">0</div>
                     </div>
                 </div>
-
                 <div class="mt-auto pt-6">
                     <p class="text-xs text-gray-500 flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-brandGreen shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:shadow-none"></span>
@@ -180,7 +178,8 @@
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-[#1a1d24] rounded-2xl p-6 border-2 border-gray-900 dark:border-gray-800/50 shadow-brutal dark:shadow-sm relative overflow-hidden group flex flex-col h-full">
+            <!-- Card 2: Auto Update (Warna Standar) -->
+            <div class="bg-white dark:bg-[#1a1d24] rounded-2xl p-6 border-2 border-gray-900 dark:border-gray-800/50 shadow-brutal dark:shadow-sm relative overflow-hidden group flex flex-col h-full transition-colors duration-300">
                 <div>
                     <div class="flex justify-between items-start mb-2">
                         <h2 class="text-xs font-bold text-gray-500 uppercase tracking-widest">Auto Update Proxies</h2>
@@ -188,24 +187,19 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    
                     <div class="mt-4 flex items-center bg-gray-50 dark:bg-[#121419] border border-gray-900 dark:border-gray-800/80 rounded-2xl px-5 h-24 w-full shadow-inner transition-colors duration-300">
-                        
                         <div class="flex flex-col justify-center pr-4 sm:pr-5 border-r border-gray-300 dark:border-gray-800/80">
                             <span class="text-xs sm:text-[13px] font-bold text-gray-500 dark:text-gray-400 leading-tight">Last</span>
                             <span class="text-sm sm:text-[16px] font-extrabold text-gray-800 dark:text-gray-200 leading-tight">Sync:</span>
                         </div>
-
                         <div class="relative flex items-center justify-center w-8 h-8 flex-shrink-0 mx-4 sm:mx-5">
                             <svg class="w-7 h-7 text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                             </svg>
                         </div>
-
                         <div id="lastUpdated" class="text-[28px] sm:text-[32px] font-black tracking-tight text-gray-900 dark:text-white leading-none truncate mt-0.5">--:--</div>
                     </div>
                 </div>
-
                 <div class="mt-auto pt-6">
                     <div class="w-full bg-gray-200 dark:bg-gray-800 border border-gray-900 dark:border-none rounded-full h-1.5 overflow-hidden">
                         <div class="bg-brandGreen h-full border-r border-gray-900 dark:border-none rounded-full relative w-full">
