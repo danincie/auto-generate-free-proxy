@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Generate Free Proxy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Proxinci - Live Free Proxies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script>
@@ -63,7 +63,9 @@
             <div class="w-8 h-8 rounded-lg bg-brandGreen flex items-center justify-center text-black border-2 border-gray-900 dark:border-none shadow-brutal-sm dark:shadow-none">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
             </div>
-            <span class="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">ProxyDash</span>
+            <span class="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">
+                Prox<span class="text-brandGreen drop-shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] dark:drop-shadow-none">inci</span>
+            </span>
         </div>
 
         <nav class="flex-1 space-y-3">
@@ -109,7 +111,6 @@
                 <div>
                     <div class="flex justify-between items-start mb-4">
                         <div class="text-xs text-gray-600 dark:text-gray-400 font-bold uppercase tracking-wider">Total Active Proxies</div>
-                        
                         <div class="relative group cursor-help">
                             <svg class="w-5 h-5 text-gray-900 dark:text-gray-500 hover:text-brandGreen transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
                             <div class="absolute right-0 bottom-full mb-3 w-64 p-3 bg-gray-900 text-white text-xs font-medium rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform translate-y-2 group-hover:translate-y-0">
@@ -343,12 +344,11 @@
         function selectOption(type, value, label) {
             activeFilters[type.toLowerCase()] = value;
             
-            // Logika UI untuk merubah warna tombol Filter Protocol jika dipilih
             const btnLabel = document.getElementById('label' + type);
             btnLabel.textContent = label;
             
             if(type === 'Proto') {
-                btnLabel.className = ''; // reset
+                btnLabel.className = ''; 
                 if(value === 'HTTP') btnLabel.className = 'text-gray-600 dark:text-gray-300 font-semibold';
                 else if(value === 'SOCKS4') btnLabel.className = 'text-teal-600 dark:text-teal-400 font-bold';
                 else if(value === 'SOCKS5') btnLabel.className = 'text-pink-600 dark:text-pink-400 font-bold';
