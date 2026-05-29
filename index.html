@@ -201,12 +201,12 @@
                 </div>
                 <div class="mt-auto pt-6">
                     <div class="w-full bg-gray-200 dark:bg-gray-800 border border-gray-900 dark:border-none rounded-full h-1.5 overflow-hidden">
-                        <div class="bg-brandGreen h-full border-r border-gray-900 dark:border-none rounded-full relative w-full">
+                        <div id="syncProgressBar" class="bg-brandGreen h-full border-r border-gray-900 dark:border-none rounded-full relative transition-all duration-1000 ease-linear w-0">
                             <div class="absolute top-0 right-0 bottom-0 left-0 bg-white/30 animate-[pulse_2s_ease-in-out_infinite]"></div>
                         </div>
                     </div>
                     <div class="flex justify-between items-center mt-3">
-                        <span class="text-xs font-medium text-gray-500">Updates Hourly (System Uptime: 100%)</span>
+                        <span class="text-xs font-medium text-gray-500">Next Update: <span id="nextSyncCountdown" class="font-bold text-gray-700 dark:text-gray-300 font-mono">--m --s</span></span>
                         <span class="text-xs font-medium text-gray-500">Your Time: <span id="localClock" class="font-mono text-gray-900 dark:text-gray-300">--:--</span></span>
                     </div>
                 </div>
@@ -309,12 +309,40 @@
     </main>
 
     <script>
+        let lastSyncTimeObj = null;
+
         function updateClock() {
             const now = new Date();
+            
+            // 1. Update Jam Kanan Bawah
             document.getElementById('localClock').textContent = now.toLocaleString('en-GB', {
                 day: '2-digit', month: '2-digit', year: 'numeric',
                 hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
             }).toUpperCase();
+
+            // 2. Logika Progress Bar & Countdown (Real-time berdasarkan JSON server)
+            if (lastSyncTimeObj) {
+                const elapsedMs = now - lastSyncTimeObj; 
+                const oneHourMs = 60 * 60 * 1000; // 60 Menit
+
+                let percentage = (elapsedMs / oneHourMs) * 100;
+                
+                // KUNCI LOGIKA ANDA: Cegah bar reset ke 0 jika server telat update
+                if (percentage > 100) percentage = 100; 
+                
+                document.getElementById('syncProgressBar').style.width = percentage + '%';
+
+                const remainingMs = oneHourMs - elapsedMs;
+                if (remainingMs > 0) {
+                    const mins = Math.floor(remainingMs / 60000);
+                    const secs = Math.floor((remainingMs % 60000) / 1000);
+                    document.getElementById('nextSyncCountdown').textContent = 
+                        `${mins.toString().padStart(2, '0')}m ${secs.toString().padStart(2, '0')}s`;
+                } else {
+                    // Teks ini muncul ketika bar mentok 100% dan menunggu auto-update JSON selesai
+                    document.getElementById('nextSyncCountdown').textContent = 'Syncing soon...';
+                }
+            }
         }
         setInterval(updateClock, 1000); 
         updateClock(); 
@@ -435,6 +463,9 @@
 
                 const utcDateStr = data.last_updated.replace(' ', 'T') + 'Z';
                 const dateObj = new Date(utcDateStr);
+                
+                // Menyimpan waktu update asli dari server ke variabel global untuk Progress Bar
+                lastSyncTimeObj = dateObj;
                 
                 // Memformat waktu agar HANYA menampilkan jam (tanpa tanggal) sesuai zona waktu pengguna
                 document.getElementById('lastUpdated').textContent = dateObj.toLocaleTimeString('en-US', {
