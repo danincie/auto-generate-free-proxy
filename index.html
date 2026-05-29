@@ -395,15 +395,20 @@
 
         function populateCountryDropdown(proxies) {
             const ul = document.getElementById('countryList');
-            // Menu Default (All)
-            ul.innerHTML = `<li onclick="selectOption('Country', 'all', 'All Countries')" class="px-5 py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-darkBase hover:text-brandGreen cursor-pointer transition-colors">All Countries</li>`;
+            
+            // BUG FIX: Hapus sifat flexbox yang membuat daftar tergencet
+            ul.classList.remove('flex', 'flex-col');
+            
+            // Menu Default (All) - Menggunakan py-2.5 agar lebih lega
+            ul.innerHTML = `<li onclick="selectOption('Country', 'all', 'All Countries')" class="block px-5 py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-darkBase hover:text-brandGreen cursor-pointer transition-colors">All Countries</li>`;
             
             const countries = new Set();
             proxies.forEach(item => { if (item.country) countries.add(item.country); });
             
             Array.from(countries).sort().forEach(country => {
                 const li = document.createElement('li');
-                li.className = "px-5 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-darkBase hover:text-brandGreen cursor-pointer transition-colors truncate";
+                // Tambahkan 'block' dan 'py-2.5' agar teks tidak dempet dan bisa di-scroll dengan normal
+                li.className = "block px-5 py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-darkBase hover:text-brandGreen cursor-pointer transition-colors truncate";
                 li.onclick = () => selectOption('Country', country, country);
                 li.textContent = country;
                 ul.appendChild(li);
