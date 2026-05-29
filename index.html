@@ -130,8 +130,8 @@
             </div>
         </header>
 
-        <!-- BANNER INFORMASI (Dengan variasi warna bg-lime-50) -->
-        <div class="bg-lime-50 dark:bg-[#1e2128] border-2 border-gray-900 dark:border-gray-800/50 rounded-2xl p-4 mb-6 shadow-brutal-sm dark:shadow-sm flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 transition-colors duration-300">
+        <!-- BANNER INFORMASI (Warna dinaikkan ke lime-100 agar lebih pekat) -->
+        <div class="bg-lime-100 dark:bg-[#1e2128] border-2 border-gray-900 dark:border-gray-800/50 rounded-2xl p-4 mb-6 shadow-brutal-sm dark:shadow-sm flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 transition-colors duration-300">
             <div class="w-8 h-8 rounded-full bg-white dark:bg-[#121419] flex items-center justify-center flex-shrink-0 border border-gray-900 dark:border-gray-800">
                 <svg class="w-4 h-4 text-gray-700 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
@@ -142,9 +142,8 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             
-            <!-- Card 1: Total Active Proxies (Variasi Warna) -->
-            <!-- bg-lime-50 untuk Light Mode, bg-[#1e2128] untuk Dark Mode -->
-            <div class="bg-lime-50 dark:bg-[#1e2128] rounded-2xl p-6 border-2 border-gray-900 dark:border-gray-800/50 shadow-brutal dark:shadow-sm relative overflow-hidden group flex flex-col h-full transition-colors duration-300">
+            <!-- Card 1: Total Active Proxies (Warna dinaikkan ke lime-100) -->
+            <div class="bg-lime-100 dark:bg-[#1e2128] rounded-2xl p-6 border-2 border-gray-900 dark:border-gray-800/50 shadow-brutal dark:shadow-sm relative overflow-hidden group flex flex-col h-full transition-colors duration-300">
                 <div>
                     <div class="flex justify-between items-start mb-2">
                         <h2 class="text-xs font-bold text-gray-500 uppercase tracking-widest">Total Active Proxies</h2>
@@ -153,7 +152,6 @@
                         </svg>
                     </div>
                     
-                    <!-- Inner Container: Diubah jadi bg-white agar kontras dengan bg-lime-50 luarnya -->
                     <div class="mt-4 flex items-center bg-white dark:bg-[#121419] border border-gray-900 dark:border-gray-800/80 rounded-2xl px-5 h-24 w-full shadow-inner transition-colors duration-300">
                         <div class="flex flex-col justify-center pr-4 sm:pr-5 border-r border-gray-300 dark:border-gray-800/80">
                             <span class="text-xs sm:text-[13px] font-bold text-gray-500 dark:text-gray-400 leading-tight">Total</span>
@@ -178,7 +176,7 @@
                 </div>
             </div>
 
-            <!-- Card 2: Auto Update (Warna Standar) -->
+            <!-- Card 2: Auto Update -->
             <div class="bg-white dark:bg-[#1a1d24] rounded-2xl p-6 border-2 border-gray-900 dark:border-gray-800/50 shadow-brutal dark:shadow-sm relative overflow-hidden group flex flex-col h-full transition-colors duration-300">
                 <div>
                     <div class="flex justify-between items-start mb-2">
@@ -193,7 +191,8 @@
                             <span class="text-sm sm:text-[16px] font-extrabold text-gray-800 dark:text-gray-200 leading-tight">Sync:</span>
                         </div>
                         <div class="relative flex items-center justify-center w-8 h-8 flex-shrink-0 mx-4 sm:mx-5">
-                            <svg class="w-7 h-7 text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <!-- SVG Ditambahkan style="animation-direction: reverse;" -->
+                            <svg class="w-7 h-7 text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none animate-spin-slow [animation-direction:reverse]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                             </svg>
                         </div>
