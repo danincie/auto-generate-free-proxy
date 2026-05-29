@@ -15,6 +15,21 @@
         }
     </script>
 
+    <style>
+        /* Custom Scrollbar agar senada dengan tema */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b2f242; }
+        .dark ::-webkit-scrollbar-thumb { background: #374151; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #b2f242; }
+        
+        /* Animasi Custom Toast */
+        .toast-enter { transform: translateX(120%); opacity: 0; }
+        .toast-enter-active { transform: translateX(0); opacity: 1; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .toast-exit { transform: translateX(120%); opacity: 0; transition: all 0.3s ease-in; }
+    </style>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -43,6 +58,8 @@
 </head>
 <body class="bg-lightBase dark:bg-darkBase text-gray-800 dark:text-gray-300 font-sans antialiased min-h-screen flex selection:bg-brandGreen selection:text-black transition-colors duration-300">
 
+    <div id="toastContainer" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
     <aside class="w-64 bg-white dark:bg-darkBase border-r-2 border-gray-900 dark:border-r dark:border-darkBorder hidden lg:flex flex-col p-6 transition-colors duration-300">
         <div class="flex items-center gap-3 mb-10">
             <div class="w-8 h-8 rounded-lg bg-brandGreen flex items-center justify-center text-black border-2 border-gray-900 dark:border-none shadow-brutal-sm dark:shadow-none">
@@ -52,11 +69,11 @@
         </div>
 
         <nav class="flex-1 space-y-3">
-            <a href="#" aria-label="Dashboard" class="flex items-center gap-3 bg-white dark:bg-darkCard text-gray-900 dark:text-white px-4 py-3 rounded-xl border-2 border-gray-900 dark:border dark:border-darkBorder shadow-brutal-sm dark:shadow-sm font-bold transition-all">
+            <a href="#" class="flex items-center gap-3 bg-white dark:bg-darkCard text-gray-900 dark:text-white px-4 py-3 rounded-xl border-2 border-gray-900 dark:border dark:border-darkBorder shadow-brutal-sm dark:shadow-sm font-bold transition-all">
                 <svg class="w-5 h-5 text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,0.8)]" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
                 Dashboard
             </a>
-            <a href="#" aria-label="Documentation" class="flex items-center gap-3 text-gray-600 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-[#15171d] px-4 py-3 rounded-xl transition font-semibold">
+            <a href="#" class="flex items-center gap-3 text-gray-600 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-[#15171d] px-4 py-3 rounded-xl transition font-semibold">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 Documentation
             </a>
@@ -108,8 +125,13 @@
                 <div>
                     <div class="flex justify-between items-start mb-4">
                         <div class="text-xs text-gray-600 dark:text-gray-400 font-bold uppercase tracking-wider">Auto Update Proxies</div>
-                        <div class="cursor-help" title="The system automatically scrapes, tests, and updates thousands of fresh proxies exactly at minute :00 every hour.">
+                        
+                        <div class="relative group cursor-help">
                             <svg class="w-5 h-5 text-gray-900 dark:text-gray-500 hover:text-brandGreen transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div class="absolute right-0 bottom-full mb-3 w-64 p-3 bg-gray-900 text-white text-xs font-medium rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform translate-y-2 group-hover:translate-y-0">
+                                The system automatically scrapes, tests, and updates thousands of fresh proxies exactly at minute <span class="text-brandGreen font-bold">:00</span> every hour.
+                                <div class="absolute top-full right-2 border-4 border-transparent border-t-gray-900"></div>
+                            </div>
                         </div>
                     </div>
                     
@@ -138,36 +160,63 @@
             </div>
         </div>
 
-        <div class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-2xl overflow-hidden shadow-brutal dark:shadow-lg transition-colors duration-300">
+        <div class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-2xl overflow-visible shadow-brutal dark:shadow-lg transition-colors duration-300">
             
             <div class="p-5 border-b-2 border-gray-900 dark:border-b dark:border-darkBorder bg-[#f8f9f5] dark:bg-transparent flex flex-col xl:flex-row justify-between items-center gap-4 transition-colors duration-300">
                 <h2 class="text-xl font-extrabold text-gray-900 dark:text-white w-full xl:w-auto">Live Proxies</h2>
                 
-                <div class="flex flex-wrap gap-3 w-full xl:w-auto font-medium">
-                    <input type="text" id="searchBar" oninput="applyFilters()" placeholder="Search IP or Country..." class="bg-white dark:bg-darkBase border-2 border-gray-900 dark:border dark:border-darkBorder rounded-full px-5 py-2 text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brandGreen flex-1 min-w-[200px]">
+                <div class="flex flex-wrap gap-3 w-full xl:w-auto font-medium custom-dropdown-container">
                     
-                    <select id="filterProto" aria-label="Filter by Protocol" onchange="applyFilters()" class="bg-white dark:bg-darkBase border-2 border-gray-900 dark:border dark:border-darkBorder rounded-full px-5 py-2 text-sm text-gray-900 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-brandGreen appearance-none cursor-pointer">
-                        <option value="all">All Protocols</option>
-                        <option value="HTTP">HTTP</option>
-                        <option value="SOCKS4">SOCKS4</option>
-                        <option value="SOCKS5">SOCKS5</option>
-                    </select>
+                    <div class="relative flex-1 min-w-[200px]">
+                        <input type="text" id="searchBar" oninput="activeFilters.search = this.value; applyFilters()" placeholder="Search IP or Country..." class="w-full bg-white dark:bg-darkBase border-2 border-gray-900 dark:border-darkBorder rounded-full pl-10 pr-5 py-2 text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brandGreen">
+                        <svg class="w-4 h-4 text-gray-400 absolute left-4 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    
+                    <div class="relative w-full sm:w-auto sm:min-w-[150px]">
+                        <button onclick="toggleDropdown('dropProto')" class="w-full bg-white dark:bg-darkBase border-2 border-gray-900 dark:border-darkBorder rounded-full px-5 py-2 text-sm text-gray-900 dark:text-gray-200 flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-brandGreen">
+                            <span id="labelProto">All Protocols</span>
+                            <svg id="iconProto" class="w-4 h-4 ml-2 transition-transform duration-200 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="dropProto" class="absolute z-50 w-full mt-2 bg-white dark:bg-darkCard border-2 border-gray-900 dark:border-darkBorder rounded-xl shadow-brutal-sm dark:shadow-xl opacity-0 invisible transform -translate-y-2 transition-all duration-200 origin-top">
+                            <ul class="py-1 flex flex-col">
+                                <li onclick="selectOption('Proto', 'all', 'All Protocols')" class="px-5 py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-darkBase hover:text-brandGreen cursor-pointer transition-colors">All Protocols</li>
+                                <li onclick="selectOption('Proto', 'HTTP', 'HTTP')" class="px-5 py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-darkBase hover:text-brandGreen cursor-pointer transition-colors">HTTP</li>
+                                <li onclick="selectOption('Proto', 'SOCKS4', 'SOCKS4')" class="px-5 py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-darkBase hover:text-brandGreen cursor-pointer transition-colors">SOCKS4</li>
+                                <li onclick="selectOption('Proto', 'SOCKS5', 'SOCKS5')" class="px-5 py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-darkBase hover:text-brandGreen cursor-pointer transition-colors">SOCKS5</li>
+                            </ul>
+                        </div>
+                    </div>
 
-                    <select id="filterAnon" aria-label="Filter by Anonymity" onchange="applyFilters()" class="bg-white dark:bg-darkBase border-2 border-gray-900 dark:border dark:border-darkBorder rounded-full px-5 py-2 text-sm text-gray-900 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-brandGreen appearance-none cursor-pointer">
-                        <option value="all">All Anonymity</option>
-                        <option value="Elite">Elite</option>
-                        <option value="Anonymous">Anonymous</option>
-                        <option value="Transparent">Transparent</option>
-                    </select>
+                    <div class="relative w-full sm:w-auto sm:min-w-[160px]">
+                        <button onclick="toggleDropdown('dropAnon')" class="w-full bg-white dark:bg-darkBase border-2 border-gray-900 dark:border-darkBorder rounded-full px-5 py-2 text-sm text-gray-900 dark:text-gray-200 flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-brandGreen">
+                            <span id="labelAnon">All Anonymity</span>
+                            <svg id="iconAnon" class="w-4 h-4 ml-2 transition-transform duration-200 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="dropAnon" class="absolute z-50 w-full mt-2 bg-white dark:bg-darkCard border-2 border-gray-900 dark:border-darkBorder rounded-xl shadow-brutal-sm dark:shadow-xl opacity-0 invisible transform -translate-y-2 transition-all duration-200 origin-top">
+                            <ul class="py-1 flex flex-col">
+                                <li onclick="selectOption('Anon', 'all', 'All Anonymity')" class="px-5 py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-darkBase hover:text-brandGreen cursor-pointer transition-colors">All Anonymity</li>
+                                <li onclick="selectOption('Anon', 'Elite', 'Elite')" class="px-5 py-2.5 text-sm font-semibold text-purple-600 dark:text-purple-400 hover:bg-gray-100 dark:hover:bg-darkBase cursor-pointer transition-colors">Elite</li>
+                                <li onclick="selectOption('Anon', 'Anonymous', 'Anonymous')" class="px-5 py-2.5 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-darkBase cursor-pointer transition-colors">Anonymous</li>
+                                <li onclick="selectOption('Anon', 'Transparent', 'Transparent')" class="px-5 py-2.5 text-sm font-semibold text-orange-600 dark:text-orange-400 hover:bg-gray-100 dark:hover:bg-darkBase cursor-pointer transition-colors">Transparent</li>
+                            </ul>
+                        </div>
+                    </div>
                     
-                    <select id="filterCountry" aria-label="Filter by Country" onchange="applyFilters()" class="bg-white dark:bg-darkBase border-2 border-gray-900 dark:border dark:border-darkBorder rounded-full px-5 py-2 text-sm text-gray-900 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-brandGreen appearance-none cursor-pointer">
-                        <option value="all">All Countries</option>
-                    </select>
+                    <div class="relative w-full sm:w-auto sm:min-w-[170px]">
+                        <button onclick="toggleDropdown('dropCountry')" class="w-full bg-white dark:bg-darkBase border-2 border-gray-900 dark:border-darkBorder rounded-full px-5 py-2 text-sm text-gray-900 dark:text-gray-200 flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-brandGreen">
+                            <span id="labelCountry" class="truncate w-24 text-left">All Countries</span>
+                            <svg id="iconCountry" class="w-4 h-4 ml-2 flex-shrink-0 transition-transform duration-200 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="dropCountry" class="absolute right-0 sm:left-0 z-50 w-64 sm:w-full mt-2 bg-white dark:bg-darkCard border-2 border-gray-900 dark:border-darkBorder rounded-xl shadow-brutal-sm dark:shadow-xl opacity-0 invisible transform -translate-y-2 transition-all duration-200 origin-top">
+                            <ul id="countryList" class="py-1 flex flex-col max-h-60 overflow-y-auto">
+                                </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse whitespace-nowrap">
+            <div class="overflow-x-auto pb-4"> <table class="w-full text-left border-collapse whitespace-nowrap">
                     <thead>
                         <tr class="text-xs text-gray-600 dark:text-gray-500 font-extrabold uppercase tracking-wider border-b-2 border-gray-900 dark:border-b dark:border-darkBorder bg-[#f4f5f0] dark:bg-[#14161b] transition-colors duration-300">
                             <th class="px-6 py-4 w-16 text-center">Loc</th>
@@ -179,7 +228,7 @@
                         </tr>
                     </thead>
                     <tbody id="proxyTableBody" class="divide-y divide-gray-200 dark:divide-darkBorder">
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
             
@@ -201,10 +250,9 @@
     </main>
 
     <script>
-        // --- LOGIKA JAM LOKAL (LIVE) ---
+        // --- LOGIKA JAM LOKAL ---
         function updateClock() {
             const now = new Date();
-            // Format angka: DD/MM/YYYY, HH:MM:SS (AM/PM)
             document.getElementById('localClock').textContent = now.toLocaleString('en-GB', {
                 day: '2-digit', month: '2-digit', year: 'numeric',
                 hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
@@ -213,7 +261,7 @@
         setInterval(updateClock, 1000); 
         updateClock(); 
 
-        // --- LOGIKA SAKELAR TEMA (DARK/LIGHT MODE) ---
+        // --- TEMA ---
         const htmlElement = document.documentElement;
         const themeKnob = document.getElementById('themeKnob');
         const themeText = document.getElementById('themeText');
@@ -231,17 +279,90 @@
         }
 
         function toggleTheme() {
-            if (htmlElement.classList.contains('dark')) {
-                htmlElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                htmlElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            }
+            htmlElement.classList.toggle('dark');
+            localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
             updateThemeUI();
         }
-
         updateThemeUI();
+
+        // --- CUSTOM UI: TOAST NOTIFICATION ---
+        function showToast(message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            // Elemen Toast bergaya Web3/Modern
+            toast.className = 'bg-gray-900 border-2 border-brandGreen rounded-xl p-4 shadow-xl flex items-center gap-3 w-72 pointer-events-auto toast-enter';
+            toast.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-brandGreen/20 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-brandGreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm font-bold">Success Copied</h4>
+                    <p class="text-gray-400 text-xs font-mono mt-0.5">${message}</p>
+                </div>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Trigger Animasi Masuk
+            requestAnimationFrame(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-enter-active');
+            });
+
+            // Trigger Animasi Keluar & Hapus setelah 3 detik
+            setTimeout(() => {
+                toast.classList.remove('toast-enter-active');
+                toast.classList.add('toast-exit');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => showToast(text));
+        }
+
+        // --- CUSTOM UI: DROPDOWN MENU ---
+        let activeFilters = { search: '', proto: 'all', anon: 'all', country: 'all' };
+
+        function toggleDropdown(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById('icon' + id.replace('drop', ''));
+            const isHidden = el.classList.contains('opacity-0');
+            
+            // Tutup semua menu lain terlebih dahulu
+            ['dropProto', 'dropAnon', 'dropCountry'].forEach(dId => {
+                document.getElementById(dId).classList.add('opacity-0', 'invisible', '-translate-y-2');
+                document.getElementById('icon' + dId.replace('drop', '')).classList.remove('rotate-180');
+            });
+
+            // Buka yang ditekan (jika sebelumnya tertutup)
+            if (isHidden) {
+                el.classList.remove('opacity-0', 'invisible', '-translate-y-2');
+                icon.classList.add('rotate-180');
+            }
+        }
+
+        function selectOption(type, value, label) {
+            activeFilters[type.toLowerCase()] = value;
+            document.getElementById('label' + type).textContent = label;
+            document.getElementById('drop' + type).classList.add('opacity-0', 'invisible', '-translate-y-2');
+            document.getElementById('icon' + type).classList.remove('rotate-180');
+            applyFilters();
+        }
+
+        // Menutup menu jika klik di luar area filter
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.custom-dropdown-container')) {
+                ['dropProto', 'dropAnon', 'dropCountry'].forEach(dId => {
+                    const el = document.getElementById(dId);
+                    if (!el.classList.contains('opacity-0')) {
+                        el.classList.add('opacity-0', 'invisible', '-translate-y-2');
+                        document.getElementById('icon' + dId.replace('drop', '')).classList.remove('rotate-180');
+                    }
+                });
+            }
+        });
 
         // --- LOGIKA TABEL & PROXY ---
         let allProxies = [];
@@ -254,7 +375,6 @@
                 const response = await fetch('working_proxies.json?v=' + new Date().getTime());
                 const data = await response.json();
 
-                // KONVERSI WAKTU UTC KE LOKAL (Format Angka DD/MM/YYYY)
                 const utcDateStr = data.last_updated.replace(' ', 'T') + 'Z';
                 const dateObj = new Date(utcDateStr);
                 
@@ -274,22 +394,27 @@
         }
 
         function populateCountryDropdown(proxies) {
-            const countrySelect = document.getElementById('filterCountry');
+            const ul = document.getElementById('countryList');
+            // Menu Default (All)
+            ul.innerHTML = `<li onclick="selectOption('Country', 'all', 'All Countries')" class="px-5 py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-darkBase hover:text-brandGreen cursor-pointer transition-colors">All Countries</li>`;
+            
             const countries = new Set();
             proxies.forEach(item => { if (item.country) countries.add(item.country); });
+            
             Array.from(countries).sort().forEach(country => {
-                const option = document.createElement('option');
-                option.value = country;
-                option.textContent = country;
-                countrySelect.appendChild(option);
+                const li = document.createElement('li');
+                li.className = "px-5 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-darkBase hover:text-brandGreen cursor-pointer transition-colors truncate";
+                li.onclick = () => selectOption('Country', country, country);
+                li.textContent = country;
+                ul.appendChild(li);
             });
         }
 
         function applyFilters() {
-            const search = document.getElementById('searchBar').value.toLowerCase();
-            const fProto = document.getElementById('filterProto').value;
-            const fAnon = document.getElementById('filterAnon').value;
-            const fCountry = document.getElementById('filterCountry').value;
+            const search = activeFilters.search;
+            const fProto = activeFilters.proto;
+            const fAnon = activeFilters.anon;
+            const fCountry = activeFilters.country;
 
             currentFiltered = allProxies.filter(item => {
                 const protoStr = item.protocol || 'HTTP';
@@ -322,14 +447,8 @@
                     let latencyColor = 'text-green-600 dark:text-green-400';
                     let dotColor = 'bg-green-500 dark:bg-green-400';
                     
-                    if (item.latency_ms > 1000) { 
-                        latencyColor = 'text-yellow-600 dark:text-yellow-400'; 
-                        dotColor = 'bg-yellow-500 dark:bg-yellow-400'; 
-                    }
-                    if (item.latency_ms > 2000) { 
-                        latencyColor = 'text-red-600 dark:text-red-400'; 
-                        dotColor = 'bg-red-500 dark:bg-red-400'; 
-                    }
+                    if (item.latency_ms > 1000) { latencyColor = 'text-yellow-600 dark:text-yellow-400'; dotColor = 'bg-yellow-500 dark:bg-yellow-400'; }
+                    if (item.latency_ms > 2000) { latencyColor = 'text-red-600 dark:text-red-400'; dotColor = 'bg-red-500 dark:bg-red-400'; }
 
                     let anonColor = 'text-gray-500';
                     let anonText = item.anonymity || 'Unknown';
@@ -346,31 +465,31 @@
                     const countryName = item.country || 'Unknown';
                     const copyText = `${protoText.toLowerCase()}://${item.proxy}`;
                     
-                    let flagHtml = countryCode !== 'un' ? `<img src="https://flagcdn.com/24x18/${countryCode}.png" alt="${countryName}" title="${countryName}" class="inline-block rounded-sm shadow-sm border border-gray-300 dark:border-none w-6 h-4 object-cover">` : `<span class="text-gray-500 text-xs font-bold">Unk</span>`;
+                    // Custom Tooltip untuk Bendera
+                    let flagHtml = countryCode !== 'un' 
+                        ? `<div class="group relative inline-block cursor-pointer">
+                               <img src="https://flagcdn.com/24x18/${countryCode}.png" alt="${countryName}" class="inline-block rounded-sm shadow-sm border border-gray-300 dark:border-none w-6 h-4 object-cover">
+                               <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs font-bold rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+                                   ${countryName}
+                                   <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+                               </div>
+                           </div>` 
+                        : `<span class="text-gray-500 text-xs font-bold">Unk</span>`;
 
                     htmlContent += `
                         <tr class="hover:bg-gray-50 dark:hover:bg-[#1c1f26] transition duration-200 group">
-                            <td class="px-6 py-4 text-center" title="${countryName}">${flagHtml}</td>
-                            
+                            <td class="px-6 py-4 text-center">${flagHtml}</td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     <div class="w-2.5 h-2.5 rounded-full ${dotColor} border border-black dark:border-none transition duration-300 shadow-sm"></div>
                                     <span class="font-bold text-gray-900 dark:text-white tracking-wide font-mono text-sm">${item.proxy}</span>
                                 </div>
                             </td>
-                            
                             <td class="px-6 py-4">
                                 <span class="${protoColor} bg-gray-100 dark:bg-darkBase border border-gray-300 dark:border-darkBorder px-3 py-1.5 rounded-full text-xs shadow-sm dark:shadow-none">${protoText}</span>
                             </td>
-                            
-                            <td class="px-6 py-4">
-                                <span class="text-sm ${anonColor}">${anonText}</span>
-                            </td>
-                            
-                            <td class="px-6 py-4">
-                                <span class="text-sm font-bold font-mono ${latencyColor}">${item.latency_ms} ms</span>
-                            </td>
-                            
+                            <td class="px-6 py-4"><span class="text-sm ${anonColor}">${anonText}</span></td>
+                            <td class="px-6 py-4"><span class="text-sm font-bold font-mono ${latencyColor}">${item.latency_ms} ms</span></td>
                             <td class="px-6 py-4 text-right">
                                 <button onclick="copyToClipboard('${copyText}')" class="bg-brandGreen hover:bg-brandGreenHover text-black font-extrabold text-xs py-2 px-5 border-2 border-gray-900 dark:border-none rounded-full shadow-brutal-sm dark:shadow-none transition-all active:translate-y-1 active:shadow-none focus:outline-none">
                                     COPY IP
@@ -394,12 +513,6 @@
         function nextPage() {
             const totalPages = Math.ceil(currentFiltered.length / ITEMS_PER_PAGE);
             if (currentPage < totalPages) { currentPage++; renderTable(); }
-        }
-
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => { 
-                alert(`Proxy Copied:\n${text}`); 
-            });
         }
 
         fetchProxies();
