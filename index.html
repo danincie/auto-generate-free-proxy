@@ -112,7 +112,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             
-            <div class="bg-white dark:bg-[#1a1d24] rounded-2xl p-6 border-2 border-gray-900 dark:border-gray-800/50 shadow-brutal dark:shadow-sm relative overflow-hidden group">
+            <div class="bg-white dark:bg-[#1a1d24] rounded-2xl p-6 border-2 border-gray-900 dark:border-gray-800/50 shadow-brutal dark:shadow-sm relative overflow-hidden group flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-2">
                     <h2 class="text-xs font-bold text-gray-500 uppercase tracking-widest">Total Active Proxies</h2>
                     <svg class="w-5 h-5 text-gray-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,10 +120,9 @@
                     </svg>
                 </div>
                 
-                <div class="mt-4 flex items-center gap-3">
-                    <div class="relative flex items-center justify-center w-8 h-8">
+                <div class="mt-4 inline-flex items-center gap-3 md:gap-4 bg-gray-50 dark:bg-[#121419] border border-gray-200 dark:border-gray-800/80 rounded-2xl px-5 py-3 w-full sm:w-auto shadow-inner">
+                    <div class="relative flex items-center justify-center w-8 h-8 flex-shrink-0">
                         <div class="absolute inset-0 bg-brandGreen/40 rounded-full animate-ping blur-[2px]"></div>
-                        
                         <svg class="relative z-10 w-7 h-7 text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 14a2 2 0 100-4 2 2 0 000 4z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" class="animate-pulse" d="M15.536 8.464a5 5 0 010 7.072m-7.072-7.072a5 5 0 000 7.072" />
@@ -131,8 +130,10 @@
                         </svg>
                     </div>
 
-                    <span id="displayActiveCount" class="text-[40px] font-black tracking-tight text-gray-900 dark:text-white leading-none">0</span>
-                    <span class="text-sm font-semibold text-gray-500 ml-1 mt-3">Proxies Verified</span>
+                    <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
+                        <span id="displayActiveCount" class="text-[32px] sm:text-[40px] font-black tracking-tight text-gray-900 dark:text-white leading-none">0</span>
+                        <span class="text-xs sm:text-sm font-semibold text-gray-500">Proxies Verified</span>
+                    </div>
                 </div>
 
                 <p class="text-xs text-gray-500 mt-6 flex items-center gap-1.5">
@@ -149,16 +150,18 @@
                     </svg>
                 </div>
                 
-                <div class="mt-4">
-                    <h3 class="text-[24px] sm:text-[28px] font-black flex items-center gap-2 text-gray-900 dark:text-white tracking-tight">
-                        <svg class="w-6 h-6 sm:w-7 sm:h-7 text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                        </svg>
-                        Auto-updates every 1 hour
-                    </h3>
-                    <p class="text-sm font-bold text-gray-500 mt-2">
-                        Your Time: <span id="localClock" class="text-gray-900 dark:text-gray-300 tracking-tight">Fetching...</span>
-                    </p>
+                <div class="mt-4 inline-flex items-center gap-3 md:gap-4 bg-gray-50 dark:bg-[#121419] border border-gray-200 dark:border-gray-800/80 rounded-2xl px-5 py-3 w-full sm:w-auto shadow-inner">
+                    <svg class="w-7 h-7 flex-shrink-0 text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <div class="flex flex-col gap-0.5">
+                        <h3 class="text-[20px] sm:text-[24px] font-black text-gray-900 dark:text-white tracking-tight leading-none">
+                            Every 1 hour
+                        </h3>
+                        <p class="text-[11px] sm:text-xs font-bold text-gray-500">
+                            Your Time: <span id="localClock" class="text-gray-900 dark:text-gray-300">Fetching...</span>
+                        </p>
+                    </div>
                 </div>
 
                 <div class="mt-6">
@@ -173,6 +176,8 @@
                     </div>
                 </div>
             </div>
+            
+        </div>
             
         </div>
 
