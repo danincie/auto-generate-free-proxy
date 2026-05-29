@@ -112,7 +112,6 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             
-            <!-- Card 1: Total Active Proxies -->
             <div class="bg-white dark:bg-[#1a1d24] rounded-2xl p-6 border-2 border-gray-900 dark:border-gray-800/50 shadow-brutal dark:shadow-sm relative overflow-hidden group">
                 <div class="flex justify-between items-start mb-2">
                     <h2 class="text-xs font-bold text-gray-500 uppercase tracking-widest">Total Active Proxies</h2>
@@ -121,34 +120,27 @@
                     </svg>
                 </div>
                 
-                <!-- Angka dengan Animasi Live Icon -->
                 <div class="mt-4 flex items-center gap-3">
-                    
-                    <!-- Animated Live Broadcast Icon -->
                     <div class="relative flex items-center justify-center w-8 h-8">
-                        <!-- Efek Aura Memancar (Ping) -->
                         <div class="absolute inset-0 bg-brandGreen/40 rounded-full animate-ping blur-[2px]"></div>
                         
-                        <!-- Sinyal Radar SVG -->
-                        <svg class="relative z-10 w-7 h-7 text-brandGreen" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="relative z-10 w-7 h-7 text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 14a2 2 0 100-4 2 2 0 000 4z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" class="animate-pulse" d="M15.536 8.464a5 5 0 010 7.072m-7.072-7.072a5 5 0 000 7.072" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18.364 5.636a9 9 0 010 12.728m-12.728-12.728a9 9 0 000 12.728" />
                         </svg>
                     </div>
 
-                    <!-- Angka Total (ID dipertahankan agar JS tetap jalan) -->
                     <span id="displayActiveCount" class="text-[40px] font-black tracking-tight text-gray-900 dark:text-white leading-none">0</span>
                     <span class="text-sm font-semibold text-gray-500 ml-1 mt-3">Proxies Verified</span>
                 </div>
 
                 <p class="text-xs text-gray-500 mt-6 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-brandGreen"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-brandGreen shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:shadow-none"></span>
                     Only high-quality nodes are displayed.
                 </p>
             </div>
 
-            <!-- Card 2: Auto Update -->
             <div class="bg-white dark:bg-[#1a1d24] rounded-2xl p-6 border-2 border-gray-900 dark:border-gray-800/50 shadow-brutal dark:shadow-sm relative overflow-hidden group flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-2">
                     <h2 class="text-xs font-bold text-gray-500 uppercase tracking-widest">Auto Update Proxies</h2>
@@ -158,9 +150,8 @@
                 </div>
                 
                 <div class="mt-4">
-                    <!-- Teks Auto-Update (Mengikuti tema warna, ikonnya tetap hijau) -->
                     <h3 class="text-[24px] sm:text-[28px] font-black flex items-center gap-2 text-gray-900 dark:text-white tracking-tight">
-                        <svg class="w-6 h-6 sm:w-7 sm:h-7 text-brandGreen animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7 text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                         </svg>
                         Auto-updates every 1 hour
@@ -171,8 +162,8 @@
                 </div>
 
                 <div class="mt-6">
-                    <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-1.5 overflow-hidden">
-                        <div class="bg-brandGreen h-1.5 rounded-full relative">
+                    <div class="w-full bg-gray-200 dark:bg-gray-800 border border-gray-900 dark:border-none rounded-full h-2 overflow-hidden">
+                        <div class="bg-brandGreen h-full border-r border-gray-900 dark:border-none rounded-full relative w-full">
                             <div class="absolute top-0 right-0 bottom-0 left-0 bg-white/30 animate-[pulse_2s_ease-in-out_infinite]"></div>
                         </div>
                     </div>
