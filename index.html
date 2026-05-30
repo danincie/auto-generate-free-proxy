@@ -94,44 +94,52 @@
         </div>
     </aside>
 
-    <main class="flex-1 p-4 sm:p-6 lg:px-8 lg:pt-4 lg:pb-8 h-screen overflow-y-auto">
+    <main class="flex-1 p-4 pb-24 sm:p-6 sm:pb-24 lg:px-8 lg:pt-4 lg:pb-8 h-screen overflow-y-auto relative">
         
-        <!-- HEADER ATAS (Rapat & Sejajar) -->
-        <header class="flex flex-col sm:flex-row justify-between items-center mb-5 gap-4">
+        <header class="flex justify-between items-center mb-5 gap-2 sm:gap-4">
             
-            <!-- Judul Kiri (Diperkecil sedikit agar sejajar rapi dengan tombol) -->
-            <div class="flex items-center">
+            <div class="lg:hidden flex items-center gap-1.5 group cursor-pointer">
+                <svg class="w-7 h-7 text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none" viewBox="-3 -5 30 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 14a4 4 0 0 1 4-4h8a4 4 0 1 1 0 8H8a4 4 0 0 1-4-4z" transform="rotate(-35 12 12) translate(-3.5, -5.5)" opacity="0.3"/>
+                    <path d="M4 14a4 4 0 0 1 4-4h8a4 4 0 1 1 0 8H8a4 4 0 0 1-4-4z" transform="rotate(-35 12 12) translate(0, -0.5)" opacity="0.6"/>
+                    <path d="M4 14a4 4 0 0 1 4-4h8a4 4 0 1 1 0 8H8a4 4 0 0 1-4-4z" transform="rotate(-35 12 12) translate(3.5, 4.5)" />
+                </svg>
+                <span class="text-[22px] font-black tracking-tighter text-gray-900 dark:text-white flex items-start leading-none mt-1">
+                    prox<span class="text-brandGreen drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] dark:drop-shadow-none">inci</span>
+                </span>
+            </div>
+
+            <div class="hidden lg:flex items-center">
                 <h1 class="text-2xl sm:text-[26px] font-black text-gray-900 dark:text-white tracking-tight leading-none mt-1">Live Free Proxies</h1>
             </div>
             
-            <!-- Area Kanan Header: Theme Toggle & GitHub Icon -->
-            <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
+            <div class="flex items-center gap-2 sm:gap-4">
                 
-                <!-- Theme Toggle Button -->
-                <button onclick="toggleTheme()" class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-full px-4 py-1.5 flex items-center gap-2 shadow-brutal-sm dark:shadow-sm hover:-translate-y-0.5 transition-transform focus:outline-none">
-                    <div class="w-10 h-5 bg-brandGreen border-2 border-gray-900 dark:border-none rounded-full flex items-center p-0.5 relative">
+                <button onclick="toggleTheme()" class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-full px-2 sm:px-4 py-1.5 flex items-center gap-2 shadow-brutal-sm dark:shadow-sm hover:-translate-y-0.5 transition-transform focus:outline-none">
+                    <div class="w-10 h-5 bg-brandGreen border-2 border-gray-900 dark:border-none rounded-full flex items-center p-0.5 relative shrink-0">
                         <div id="themeKnob" class="w-3.5 h-3.5 bg-black rounded-full absolute transition-all duration-300 left-1 dark:translate-x-4"></div>
                     </div>
-                    <div id="themeText" class="text-xs font-bold text-gray-900 dark:text-white w-16 text-left">Light</div>
+                    <div id="themeText" class="hidden sm:block text-xs font-bold text-gray-900 dark:text-white w-16 text-left">Light</div>
                 </button>
 
-                <!-- Garis Pemisah (Divider) -->
                 <div class="hidden sm:block w-0.5 h-7 bg-gray-200 dark:bg-gray-800/50 rounded-full"></div>
 
-                <!-- Ikon GitHub (Diperbesar & Logo Ori) -->
                 <a href="https://github.com/danincie" target="_blank" rel="noopener noreferrer" class="flex items-center group cursor-pointer" title="View Creator on GitHub">
-                    <div class="w-11 h-11 rounded-full border-2 border-gray-900 dark:border-gray-700 overflow-hidden shadow-brutal-sm dark:shadow-sm group-hover:shadow-none group-hover:translate-y-0.5 group-hover:border-brandGreen dark:group-hover:border-brandGreen transition-all relative bg-white dark:bg-[#1a1c23] flex items-center justify-center">
-                        <svg class="w-7 h-7 text-gray-900 dark:text-white group-hover:text-brandGreen transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                    <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full border-2 border-gray-900 dark:border-gray-700 overflow-hidden shadow-brutal-sm dark:shadow-sm group-hover:shadow-none group-hover:translate-y-0.5 group-hover:border-brandGreen dark:group-hover:border-brandGreen transition-all relative bg-white dark:bg-[#1a1c23] flex items-center justify-center">
+                        <svg class="w-5 h-5 sm:w-7 sm:h-7 text-gray-900 dark:text-white group-hover:text-brandGreen transition-colors" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .08 1.53 1.04 1.53 1.04.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"></path>
                         </svg>
                     </div>
                 </a>
-                
             </div>
         </header>
 
-        <!-- BANNER INFORMASI (Warna dinaikkan ke lime-100 agar lebih pekat) -->
-        <div class="bg-lime-100 dark:bg-[#1e2128] border-2 border-gray-900 dark:border-gray-800/50 rounded-2xl p-4 mb-6 shadow-brutal-sm dark:shadow-sm flex items-start sm:items-center gap-3 sm:gap-4 transition-colors duration-300">
+        <div class="lg:hidden bg-white dark:bg-[#1a1d24] border-2 border-gray-900 dark:border-gray-800/50 rounded-full py-2 px-4 mb-6 shadow-brutal-sm dark:shadow-sm flex items-center justify-center gap-2 w-max transition-colors duration-300">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span class="text-xs font-bold text-gray-800 dark:text-gray-300">Welcome to Proxinci!</span>
+        </div>
+
+        <div class="hidden lg:flex bg-lime-100 dark:bg-[#1e2128] border-2 border-gray-900 dark:border-gray-800/50 rounded-2xl p-4 mb-6 shadow-brutal-sm dark:shadow-sm items-start sm:items-center gap-3 sm:gap-4 transition-colors duration-300">
             <div class="w-8 h-8 rounded-full bg-white dark:bg-[#121419] flex items-center justify-center flex-shrink-0 border border-gray-900 dark:border-gray-800 mt-0.5 sm:mt-0">
                 <svg class="w-4 h-4 text-gray-700 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
@@ -324,6 +332,24 @@
             </div>
 
         </div>
+        <nav class="lg:hidden fixed bottom-0 left-0 w-full bg-[#f4f5f0] dark:bg-[#0d0f14] border-t-2 border-gray-900 dark:border-t dark:border-[#2a2d36] z-[90] px-6 py-2.5 flex justify-between items-center transition-colors duration-300 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] dark:shadow-none">
+            
+            <a href="#" aria-label="Dashboard" class="w-14 h-11 bg-brandGreen rounded-xl border-2 border-gray-900 flex items-center justify-center shadow-brutal-sm transition-transform active:translate-y-1">
+                <svg class="w-6 h-6 text-black drop-shadow-[1px_1px_0px_rgba(0,0,0,0.4)] dark:drop-shadow-none" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
+            </a>
+            
+            <a href="#" aria-label="Documentation" class="w-14 h-11 flex items-center justify-center text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            </a>
+
+            <a href="#" aria-label="System Status" class="w-14 h-11 flex items-center justify-center text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors relative">
+                <span class="absolute top-2 right-3.5 flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brandGreen opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brandGreen border border-black dark:border-[#0d0f14]"></span>
+                </span>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
+            </a>
+        </nav>
     </main>
 
     <script>
