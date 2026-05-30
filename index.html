@@ -313,10 +313,10 @@
                     <thead class="hidden lg:table-header-group">
                         <tr class="text-xs text-gray-600 dark:text-gray-500 font-extrabold uppercase tracking-wider border-b-2 border-gray-900 dark:border-b dark:border-darkBorder bg-[#f4f5f0] dark:bg-[#14161b] transition-colors duration-300">
                             <th class="px-6 py-4 w-16 text-center">Loc</th>
-                            <th class="px-6 py-4">IP Address : Port</th>
-                            <th class="px-6 py-4">Protocol</th>
-                            <th class="px-6 py-4">Anonymity</th>
-                            <th class="px-6 py-4">Latency</th>
+                            <th class="px-6 py-4 text-left">IP Address : Port</th>
+                            <th class="px-6 py-4 text-center">Protocol</th>
+                            <th class="px-6 py-4 text-center">Anonymity</th>
+                            <th class="px-6 py-4 text-center">Latency</th>
                             <th class="px-6 py-4 text-right">Action</th>
                         </tr>
                     </thead>
@@ -640,7 +640,7 @@
                                 </div>
                             </td>
 
-                            <td class="block lg:table-cell lg:px-6 lg:py-4">
+                            <td class="block lg:table-cell lg:px-6 lg:py-4 lg:text-center">
                                 <div class="grid grid-cols-3 gap-2 lg:hidden mb-4 bg-gray-50 dark:bg-[#121419] p-3 rounded-xl border border-gray-200 dark:border-gray-800/80 shadow-inner w-full">
                                     <div class="text-center">
                                         <span class="block text-[9px] font-bold text-gray-400 mb-1.5 uppercase tracking-wider">Proto</span>
@@ -659,9 +659,9 @@
                                 <span class="hidden lg:inline-block ${protoColor} bg-gray-100 dark:bg-darkBase border border-gray-300 dark:border-darkBorder px-3 py-1.5 rounded-full text-xs shadow-sm dark:shadow-none">${protoText}</span>
                             </td>
 
-                            <td class="hidden lg:table-cell px-6 py-4"><span class="text-sm ${anonColor}">${anonText}</span></td>
+                            <td class="hidden lg:table-cell px-6 py-4 lg:text-center"><span class="text-sm ${anonColor}">${anonText}</span></td>
                             
-                            <td class="hidden lg:table-cell px-6 py-4"><span class="text-sm font-bold font-mono ${latencyColor}">${item.latency_ms} ms</span></td>
+                            <td class="hidden lg:table-cell px-6 py-4 lg:text-center"><span class="text-sm font-bold font-mono ${latencyColor}">${item.latency_ms} ms</span></td>
                             
                             <td class="block lg:table-cell lg:px-6 lg:py-4 lg:text-right">
                                 <button onclick="copyToClipboard('${copyText}')" class="w-full lg:w-auto bg-brandGreen hover:bg-brandGreenHover text-black font-extrabold text-[13px] lg:text-xs py-3 lg:py-2 px-5 border-2 border-gray-900 dark:border-none rounded-xl lg:rounded-full shadow-brutal-sm dark:shadow-none transition-all active:translate-y-1 active:shadow-none focus:outline-none flex lg:inline-flex items-center justify-center gap-2">
