@@ -307,8 +307,8 @@
                 </div>
             </div>
 
-            <div class="w-full pb-4 px-2 sm:px-0"> 
-                <table class="w-full text-left border-collapse block lg:table">
+            <div class="w-full pb-4 px-4 sm:px-6 lg:px-0"> 
+                <table class="w-full text-left lg:border-collapse block lg:table">
                     <!-- Sembunyikan Header Tabel di Mobile -->
                     <thead class="hidden lg:table-header-group">
                         <tr class="text-xs text-gray-600 dark:text-gray-500 font-extrabold uppercase tracking-wider border-b-2 border-gray-900 dark:border-b dark:border-darkBorder bg-[#f4f5f0] dark:bg-[#14161b] transition-colors duration-300">
@@ -320,7 +320,8 @@
                             <th class="px-6 py-4 text-right">Action</th>
                         </tr>
                     </thead>
-                    <tbody id="proxyTableBody" class="divide-y divide-gray-200 dark:divide-darkBorder">
+                    <!-- Penambahan block & w-full agar merespon 100% layar mobile -->
+                    <tbody id="proxyTableBody" class="block w-full lg:table-row-group divide-y lg:divide-y divide-gray-200 dark:divide-darkBorder">
                     </tbody>
                 </table>
             </div>
@@ -619,15 +620,16 @@
                         : `<span class="text-gray-500 text-xs font-bold">Unk</span>`;
 
                     htmlContent += `
-                        <tr class="block lg:table-row bg-white dark:bg-transparent border-b-[6px] border-gray-100 dark:border-[#0d0f14] lg:border-none hover:bg-gray-50 dark:hover:bg-[#1c1f26] transition duration-200 p-5 lg:p-0 mb-4 lg:mb-0 rounded-2xl lg:rounded-none">
+                        <tr class="block w-full lg:table-row bg-white dark:bg-[#1a1c23] lg:dark:bg-transparent border-b-[8px] border-[#f4f5f0] dark:border-[#0d0f14] lg:border-none hover:bg-gray-50 dark:hover:bg-[#1c1f26] transition duration-200 p-5 lg:p-0 mb-4 lg:mb-0 rounded-2xl lg:rounded-none shadow-sm lg:shadow-none">
                             
-                            <td class="block lg:table-cell lg:px-6 lg:py-4">
+                            <td class="block w-full lg:table-cell lg:px-6 lg:py-4">
                                 <div class="flex items-center justify-between lg:hidden mb-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-2.5 h-2.5 rounded-full ${dotColor} shadow-[0_0_8px_currentColor]"></div>
-                                        <span class="font-bold text-gray-900 dark:text-white tracking-wide font-mono text-base">${item.proxy}</span>
+                                    <div class="flex items-center gap-3 w-4/5">
+                                        <div class="w-2.5 h-2.5 rounded-full ${dotColor} shadow-[0_0_8px_currentColor] flex-shrink-0"></div>
+                                        <!-- Ditambah 'truncate' agar IP panjang tidak merusak layar HP -->
+                                        <span class="font-bold text-gray-900 dark:text-white tracking-wide font-mono text-[15px] truncate">${item.proxy}</span>
                                     </div>
-                                    <div>${flagHtml}</div>
+                                    <div class="flex-shrink-0 pl-2">${flagHtml}</div>
                                 </div>
                                 <div class="hidden lg:block text-center">${flagHtml}</div>
                             </td>
@@ -639,19 +641,19 @@
                                 </div>
                             </td>
 
-                            <td class="block lg:table-cell lg:px-6 lg:py-4">
-                                <div class="grid grid-cols-3 gap-2 lg:hidden mb-4 bg-gray-50 dark:bg-[#121419] p-3 rounded-xl border border-gray-200 dark:border-gray-800/80 shadow-inner">
+                            <td class="block w-full lg:table-cell lg:px-6 lg:py-4">
+                                <div class="grid grid-cols-3 gap-2 lg:hidden mb-4 bg-gray-50 dark:bg-[#121419] p-3 rounded-xl border border-gray-200 dark:border-gray-800/80 shadow-inner w-full">
                                     <div class="text-center">
                                         <span class="block text-[9px] font-bold text-gray-400 mb-1.5 uppercase tracking-wider">Proto</span>
-                                        <span class="${protoColor} bg-white dark:bg-darkCard border border-gray-200 dark:border-gray-700 px-2.5 py-1 rounded-md text-[10px] shadow-sm">${protoText}</span>
+                                        <span class="${protoColor} bg-white dark:bg-darkCard border border-gray-200 dark:border-gray-700 px-2.5 py-1 rounded-md text-[10px] shadow-sm inline-block">${protoText}</span>
                                     </div>
                                     <div class="text-center border-l border-gray-200 dark:border-gray-700">
                                         <span class="block text-[9px] font-bold text-gray-400 mb-1.5 uppercase tracking-wider">Anon</span>
-                                        <span class="text-[11px] font-semibold ${anonColor}">${anonText}</span>
+                                        <span class="text-[11px] font-semibold ${anonColor} inline-block mt-0.5">${anonText}</span>
                                     </div>
                                     <div class="text-center border-l border-gray-200 dark:border-gray-700">
                                         <span class="block text-[9px] font-bold text-gray-400 mb-1.5 uppercase tracking-wider">Ping</span>
-                                        <span class="text-[11px] font-bold font-mono ${latencyColor}">${item.latency_ms}ms</span>
+                                        <span class="text-[11px] font-bold font-mono ${latencyColor} inline-block mt-0.5">${item.latency_ms}ms</span>
                                     </div>
                                 </div>
                                 
@@ -662,8 +664,9 @@
                             
                             <td class="hidden lg:table-cell px-6 py-4"><span class="text-sm font-bold font-mono ${latencyColor}">${item.latency_ms} ms</span></td>
                             
-                            <td class="block lg:table-cell lg:px-6 lg:py-4 lg:text-right">
-                                <button onclick="copyToClipboard('${copyText}')" class="w-full lg:w-auto bg-brandGreen hover:bg-brandGreenHover text-black font-extrabold text-[13px] lg:text-xs py-3 lg:py-2 px-5 border-2 border-gray-900 dark:border-none rounded-xl lg:rounded-full shadow-brutal-sm dark:shadow-none transition-all active:translate-y-1 active:shadow-none focus:outline-none flex items-center justify-center gap-2">
+                            <td class="block w-full lg:table-cell lg:px-6 lg:py-4 lg:text-right">
+                                <!-- KUNCI DESKTOP: flex diubah menjadi 'flex lg:inline-flex' agar tunduk pada rata kanan (text-right) -->
+                                <button onclick="copyToClipboard('${copyText}')" class="w-full lg:w-auto bg-brandGreen hover:bg-brandGreenHover text-black font-extrabold text-[13px] lg:text-xs py-3 lg:py-2 px-5 border-2 border-gray-900 dark:border-none rounded-xl lg:rounded-full shadow-brutal-sm dark:shadow-none transition-all active:translate-y-1 active:shadow-none focus:outline-none flex lg:inline-flex items-center justify-center gap-2">
                                     <svg class="w-4 h-4 lg:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                                     COPY IP
                                 </button>
