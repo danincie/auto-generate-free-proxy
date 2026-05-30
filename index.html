@@ -115,9 +115,16 @@
             
             <div class="flex items-center gap-2 sm:gap-4">
                 
+                <!-- Theme Toggle Button (Teks disembunyikan otomatis di HP) -->
                 <button onclick="toggleTheme()" class="bg-white dark:bg-darkCard border-2 border-gray-900 dark:border dark:border-darkBorder rounded-full px-2 sm:px-4 py-1.5 flex items-center gap-2 shadow-brutal-sm dark:shadow-sm hover:-translate-y-0.5 transition-transform focus:outline-none">
                     <div class="w-10 h-5 bg-brandGreen border-2 border-gray-900 dark:border-none rounded-full flex items-center p-0.5 relative shrink-0">
-                        <div id="themeKnob" class="w-3.5 h-3.5 bg-black rounded-full absolute transition-all duration-300 left-1 dark:translate-x-4"></div>
+                        <!-- Knob hitam dengan Icon di dalamnya -->
+                        <div id="themeKnob" class="w-3.5 h-3.5 bg-black dark:bg-[#1a1c23] rounded-full absolute transition-all duration-300 left-1 dark:translate-x-4 flex items-center justify-center">
+                            <!-- Matahari (Muncul saat Light Mode) -->
+                            <svg class="w-2.5 h-2.5 text-brandGreen block dark:hidden ml-[0.5px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                            <!-- Bulan (Muncul saat Dark Mode) -->
+                            <svg class="w-2.5 h-2.5 text-brandGreen hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                        </div>
                     </div>
                     <div id="themeText" class="hidden sm:block text-xs font-bold text-gray-900 dark:text-white w-16 text-left">Light</div>
                 </button>
