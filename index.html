@@ -315,8 +315,8 @@
                             <th class="px-6 py-4 w-16 text-center">Loc</th>
                             <th class="px-6 py-4 text-left">IP Address : Port</th>
                             <th class="px-6 py-4 w-28 text-center whitespace-nowrap">Latency</th>
-                            <th class="px-6 py-4 w-[150px] text-center whitespace-nowrap">Protocol</th>
-                            <th class="px-6 py-4 w-[160px] text-center whitespace-nowrap">Anonymity</th>
+                            <th class="py-4 px-6 lg:pl-6 lg:pr-[36px] w-[162px] text-center whitespace-nowrap">Protocol</th>
+                            <th class="py-4 px-6 lg:pl-6 lg:pr-[36px] w-[172px] text-center whitespace-nowrap">Anonymity</th>
                             <th class="px-6 py-4 w-[170px] text-center whitespace-nowrap">Action</th>
                         </tr>
                     </thead>
@@ -659,14 +659,15 @@
                                 <span class="hidden lg:inline-block text-sm font-bold font-mono ${latencyColor}">${item.latency_ms} ms</span>
                             </td>
 
-                            <td class="hidden lg:table-cell px-6 py-4 lg:text-center">
+                            <td class="hidden lg:table-cell px-6 lg:pl-6 lg:pr-[36px] py-4 lg:text-center">
                                 <span class="inline-block ${protoColor} bg-gray-100 dark:bg-darkBase border border-gray-300 dark:border-darkBorder px-3 py-1.5 rounded-full text-xs shadow-sm dark:shadow-none">${protoText}</span>
                             </td>
                             
-                            <td class="hidden lg:table-cell px-6 py-4 lg:text-center">
+                            <td class="hidden lg:table-cell px-6 lg:pl-6 lg:pr-[36px] py-4 lg:text-center">
                                 <span class="text-sm ${anonColor}">${anonText}</span>
                             </td>
-                            <td class="block lg:table-cell lg:px-6 lg:py-4">
+                            
+                            <td class="block lg:table-cell px-6 py-4">
                                 <div class="w-full flex lg:justify-center">
                                     <button onclick="copyToClipboard('${copyText}')" class="w-full lg:w-auto bg-brandGreen hover:bg-brandGreenHover text-black font-extrabold text-[13px] lg:text-xs py-3 lg:py-2 px-5 border-2 border-gray-900 dark:border-none rounded-xl lg:rounded-full shadow-brutal-sm dark:shadow-none transition-all active:translate-y-1 active:shadow-none focus:outline-none flex items-center justify-center gap-2">
                                         <svg class="w-4 h-4 lg:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
